@@ -58,18 +58,18 @@ import(
 )
 
 func main() {
-    s := sdk.New(
-        sdk.WithSecurity(shared.Security{
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        sdk.WithVehicleID(sdk.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
+        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()    
     req := operations.ListCompatibilityRequest{
-        Country: sdk.String("{country}"),
-        Scope: sdk.String("{scope}"),
-        Vin: sdk.String("{vin}"),
+        Country: smartcar.String("{country}"),
+        Scope: smartcar.String("{scope}"),
+        Vin: smartcar.String("{vin}"),
     }
 
     res, err := s.Compatibility.ListCompatibility(ctx, req)

@@ -39,11 +39,11 @@ import(
 )
 
 func main() {
-    s := sdk.New(
-        sdk.WithSecurity(shared.Security{
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        sdk.WithVehicleID(sdk.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
+        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()    
@@ -90,11 +90,11 @@ import(
 )
 
 func main() {
-    s := sdk.New(
-        sdk.WithSecurity(shared.Security{
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        sdk.WithVehicleID(sdk.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
+        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()    
@@ -141,11 +141,11 @@ import(
 )
 
 func main() {
-    s := sdk.New(
-        sdk.WithSecurity(shared.Security{
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        sdk.WithVehicleID(sdk.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
+        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()    
