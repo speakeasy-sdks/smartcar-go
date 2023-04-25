@@ -1,7 +1,7 @@
 compatibility.go
 evs.go
 vehicles.go
-sdk.go
+smartcar.go
 go.mod
 go.sum
 pkg/types/date.go
@@ -45,7 +45,7 @@ pkg/models/shared/vehiclesresponse.go
 pkg/models/shared/securityresponse.go
 pkg/models/shared/securityaction.go
 pkg/models/shared/security.go
-docs/sdk/README.md
+docs/smartcar/README.md
 docs/compatibility/README.md
 docs/evs/README.md
 docs/vehicles/README.md
