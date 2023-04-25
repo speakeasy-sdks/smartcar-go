@@ -1,0 +1,774 @@
+openapi: 3.0.3
+info:
+  title: Smartcar API
+  description: >-
+    # How do I use Postman with Smartcar?
+
+    We've detailed how to get started with Smartcar in Postman
+    [here](https://www.notion.so/smartcarapi/How-do-I-use-Postman-with-Smartcar-b8e8483bae8b43a986715582beb54bd4).
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: https://api.smartcar.com/v2.0
+    description: Smartcar API
+security: 
+  - BearerAuth: []
+tags:
+  - name: Vehicles
+    description: Operations about vehicles
+  - name: Evs
+    description: Operations about electric vehicles
+  - name: Compatibility
+    description: Operations about compatibility
+x-speakeasy-name-overrides:
+  - operationId: ^list.*
+    methodNameOverride: list
+x-speakeasy-globals:
+  parameters:
+    - name: vehicle_id
+      in: path
+      schema:
+        type: string
+        example: 36ab27d0-fd9d-4455-823a-ce30af709ffc
+paths:
+  /vehicles:
+    get:
+      summary: All Vehicles
+      tags: 
+        -  Vehicles
+      operationId: listVehicles
+      description: >-
+        __Description__
+
+
+        Returns a paged list of all vehicles connected to the application for
+        the current authorized user.
+
+
+        __Query Parameters__
+
+
+        |Parameter| Type|Required|Description|
+
+        |--|--|--|--|
+
+        |`limit`|integer|false|Number of vehicles to return (default: 10).|
+
+        |`offset`|integer|false|A vehicle ID (UUID v4).|Index to start vehicle
+        list at|
+
+
+        __Response Body__
+
+
+        |Name| Type|Desciprtion|
+
+        |--|--|--|
+
+        |`vehicles`|array|An array of vehicle IDs.|
+
+        |`vehicles.[]`|string|A vehicle ID (UUID v4).|
+
+        |`paging`|object|Metadata about the current list of elements.|
+
+        |`paging.count`|integer|The total number of elements for the entire
+        query (not just the given page).|
+
+        |`paging.offset`|integer|The current start index of the returned list of
+        elements.|
+      parameters:
+        - name: limit
+          in: query
+          description: Number of vehicles to return
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: Index to start vehicle list at
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of vehicles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehiclesResponse'
+  /vehicles/{vehicle_id}:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Vehicle Info
+      tags: 
+        -  Vehicles
+      operationId: getVehicle
+      x-speakeasy-name-override: get
+      description: |-
+        __Permission__
+
+        Returns a single vehicle object, containing identifying information.
+
+        __Permission__
+
+        `read_vehicle_info`
+
+        __Response Body__
+
+        |Name| Type|Description|
+        |--|--|--|
+        |`id`|string|A vehicle ID (UUID v4).|
+        |`make`|string|The manufacturer of the vehicle.|
+        |`model`|integer|The model of the vehicle.|
+        |`year`|integer|The model year.|
+      responses:
+        '200':
+          description: 'A single vehicles'
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleInfo'
+  /vehicles/{vehicle_id}/permissions:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Application Permissions
+      tags: 
+        -  Vehicles
+      operationId: getPermissions
+      description: >-
+        __Description__
+
+
+        Returns a list of the permissions that have been granted to your
+        application in relation to this vehicle.
+
+
+        __Query Parameters__
+
+
+        |Parameter| Type|Required|Description|
+
+        |--|--|--|--|
+
+        |`limit`|integer|false|Number of permissions to return (default: 25).|
+
+        |`offset`|integer|false|A vehicle ID (UUID v4).|Index to start
+        permission list at|
+
+
+        __Response Body__
+
+
+        |Name| Type|Desciprtion|
+
+        |--|--|--|
+
+        |`permissions`|array|An array of permissions.|
+
+        |`permissions.[]`|string|A permission.|
+
+        |`paging`|object|Metadata about the current list of elements.|
+
+        |`paging.count`|integer|The total number of elements for the entire
+        query (not just the given page).|
+
+        |`paging.offset`|integer|The current start index of the returned list of
+        elements.|
+      parameters:
+        - name: limit
+          in: query
+          description: Number of vehicles to return
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: Index to start vehicle list at
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The applications permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+  /vehicles/{vehicle_id}/location:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "36ab27d0-fd9d-4455-823a-ce30af709ffc"
+    get:
+      summary: Location
+      tags: 
+        -  Vehicles
+      operationId: getLocation
+      x-speakeasy-usage-example: true
+      description: |-
+        __Description__
+
+        Retrieve latitude and longitude of a vehicle.
+
+        __Permission__
+
+        `read_location`
+
+        __Response Body__
+
+        |Name| Type|Desciprtion|
+        |--|--|--|
+        |`latitude`|number|The latitude (in degrees).|
+        |`longitude`|number|The longitude (in degrees).|
+      responses:
+        '200':
+          description: A list of vehicles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+  /vehicles/{vehicle_id}/odometer:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getOdometer
+      tags: 
+        -  Vehicles
+      summary: Odometer
+      description: >-
+        __Description__
+
+
+        Returns the vehicle’s last known odometer reading.
+
+
+        __Permission__
+
+
+        `read_odometer`
+
+
+        __Response Body__
+
+
+        |Name| Type|Desciprtion|
+
+        |--|--|--|
+
+        |`distance`|number|The current odometer of the vehicle (in kilometers by
+        default or in miles using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+      responses:
+        '200':
+          description: return odometer reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Odometer'
+    
+  /vehicles/{vehicle_id}/fuel:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Fuel Tank (US Only)
+      tags: 
+        -  Vehicles
+      operationId: getFuelTank
+      description: >-
+        __Description__
+
+
+        Returns the status of the fuel remaining in the vehicle’s gas tank.
+        Note: The fuel tank API is only available for vehicles sold in the
+        United States.
+
+
+        __Permission__
+
+
+        `read_fuel`
+
+
+        __Response Body__
+
+
+        |Name| Type|Desciprtion|
+
+        |--|--|--|
+
+        |`range`|number|The estimated remaining distance the car can travel (in
+        kilometers by default or in miles using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+
+        |`percentRemaining`|number|The remaining level of fuel in the tank (in
+        percent).|
+
+        |`amountRemaining`|number|The amount of fuel in the tank (in liters by
+        default or in gallons (U.S.) using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+      responses:
+        '200':
+          description: return fuel tank reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/FuelTank'
+  /vehicles/{vehicle_id}/tires/pressure:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Tire pressure
+      tags: 
+        -  Vehicles
+      operationId: getTirePressure
+      description: >-
+        __Description__
+
+
+        Returns the air pressure of each of the vehicle’s tires.
+
+        __Permission__
+
+
+        `read_tires`
+
+
+        __Example Response__
+
+
+        |Name| Type|Description|
+
+        |--|--|--|
+
+        |`frontLeft`|number|The current air pressure of the front left tire (in
+        kilopascals by default or in pounds per square inch using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+
+        |`frontRight`|number|The current air pressure of the front right tire
+        (in kilopascals by default or in pounds per square inch using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+
+        |`backLeft`|number|The current air pressure of the back left tire (in
+        kilopascals by default or in pounds per square inch using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+
+        |`backRight`|number|The current air pressure of the back right tire (in
+        kilopascals by default or in pounds per square inch using the
+        [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
+      responses:
+        '200':
+          description: return Pressure reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/TirePressure'
+
+  /vehicles/{vehicle_id}/engine/oil:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Engine Oil Life
+      tags: 
+        -  Vehicles
+      description: "__Description__\n\nReturns the remaining life span of a vehicle’s engine oil.\n\n__Permission__\n\n`read_engine_oil`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  `lifeRemaining`|   number|  The engine oil’s remaining life span (as a percentage). Oil life is based on the current quality of the oil. (in percent).|"
+      operationId: getEngineOil
+      responses:
+        '200':
+          description: return engine oil reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/EngineOil'
+    
+  /vehicles/{vehicle_id}/charge:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: EV Charging Status
+      tags: 
+        -  Evs
+      description: "__Description__\n\nReturns the current charge status of an electric vehicle.\n\n__Permission__\n\n`read_charge`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  `isPluggedIn` \t|   boolean\t|  Indicates whether a charging cable is currently plugged into the vehicle’s charge port. \t|\n|   `state`\t|   string\t|   Indicates whether the vehicle is currently charging. Options: `CHARGING` `FULLY_CHARGED` `NOT_CHARGING`\t|"
+      operationId: getChargingStatus
+      responses:
+        '200':
+          description: return EV Charge reading
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/ChargeStatus'
+    
+  /vehicles/{vehicle_id}/battery:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: EV Battery Level
+      tags: 
+        -  Evs
+      description: "__Description__\n\nRetrieve EV battery level of a vehicle.\n\n__Permission__\n\n`read_battery`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  `percentRemaining`|   number|  An EV battery’s state of charge (in percent). \t|\n|   `range`|   number\t|   The estimated remaining distance the vehicle can travel (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers).\t|"
+      operationId: getBatteryLevel
+      responses:
+        '200':
+          description: return EV Battery Level reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/BatteryLevel'
+    
+  /vehicles/{vehicle_id}/battery/capacity:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: EV Battery Capacity
+      tags: 
+        -  Evs
+      description: "__Description__\n\nReturns the total capacity of an electric vehicle's battery.\n\n__Permission__\n\n`read_battery`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  capacity|   number|  The total capacity of the vehicle's battery (in kilowatt-hours). \t|"
+      operationId: getBatteryCapacity
+      responses:
+        '200':
+          description: return EV Battery Capacity reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/BatteryCapacity'
+   
+  /vehicles/{vehicle_id}/application:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Revoke Access
+      tags: 
+        -  Vehicles
+      description: "__Description__\n\nRevoke access for the current requesting application. This is the correct way to disconnect a vehicle.\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|"
+      operationId: disconnect
+      responses:
+        '200':
+          description: Revoke application access
+          content:
+            application/json: 
+              schema:
+                title: Status
+                type: string
+                enum: 
+                  - success
+                example: success
+   
+  /compatibility:
+    get:
+      summary: Compatibility
+      tags: 
+        -  Compatibility
+      description: "In the US, compatibility will return a breakdown by scope of what a car is capable of. In Europe, the check is based on the make of the car so will return only a `true` or `false`\n\nThe Compatibility API lets developers determine whether a given vehicle is compatible with Smartcar and whether it is capable of the features their application requires. Using this endpoint, developers can determine whether specific vehicles are eligible before sending a user through Smartcar Connect.\n\nA compatible vehicle is one that:\n1. Has the hardware required for internet connectivity\n2. Belongs to the makes and models Smartcar is compatible with in the vehicle's country\n\nA vehicle is capable of given feature if:\n1. The vehicle supports the feature (e.g., a Ford Escape supports /fuel but a Mustang Mach-e does not)\n2. Smartcar supports the feature for the vehicle's make\n\nNote: The Compatibility API is currently available for vehicles sold in the United States. For other countries, please contact us to request early access. Our initial release for vehicles sold outside of the United States only supports checking compatibility. It does not yet support checking `capabilities`.\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  compatible|   boolean|  `true` if the vehicle is likely compatible.*, `false` otherwise.| \nreason|   string \\| null|  One of the enum values described below if compatible is `false`, `null` otherwise.|\n| capabilities|   array| An array containing the set of endpoints that the provided scope value can provide authorization for. This array will be empty if `compatible` is false|\n| capabilities[].permission|   string|One of the permissions provided in the scope parameter.|\n| capabilities[].endpoint|   string| One of the endpoints that the permission authorizes access to.|\n| capabilities[].capable|   boolean|`true` if the vehicle is likely capable of this feature.*, `false` otherwise.|\n| capabilities[].reason|   string \\| null|One of the enum values described below if capable is `false`, `null` otherwise.|\n\n__Note__: The compatibility of a vehicle depends on many factors including its make, model, model year, trim, package, and head unit. The Smartcar Compatibility API is optimized to return false positives rather than false negatives.\n\n__Enum Values__\n\n|  Parameter \t|Value   \t|Description   \t|\n|---\t|---\t|---\t|\n|  reason|   VEHICLE_NOT_COMPATIBLE|  The vehicle does not have the hardware required for internet connectivity.|\n|  |   MAKE_NOT_COMPATIBLE|  Smartcar is not yet compatible with the vehicle's make in the specified country.|\n|  capabilities[].reason|   VEHICLE_NOT_CAPABLE|  TThe vehicle does not support this feature.|\n|  |   SMARTCAR_NOT_CAPABLE|  Smartcar is not capable of supporting the given feature on the vehicle's make.|"
+      operationId: listCompatibility
+      parameters:
+        - name: vin
+          in: query
+          schema:
+            type: string
+            example: '{vin}'
+        - name: scope
+          in: query
+          schema:
+            type: string
+            example: '{scope}'
+        - name: country
+          in: query
+          schema:
+            type: string
+            example: '{country}'
+      responses:
+        '200':
+          description: return Compatibility
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/CompatibilityResponse'
+
+  /vehicles/{vehicle_id}/security:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Unlock Vehicle
+      tags: 
+        -  Vehicles
+      description: "__Description__\n\nUnlock the vehicle\n\n__Permission__\n\n`control_security`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|"
+      operationId: lockUnlock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityAction'
+      responses:
+        '200':
+          description: return Compatibility
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/SecurityResponse'
+    
+components: 
+  securitySchemes: 
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+  schemas: 
+    VehicleInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "36ab27d0-fd9d-4455-823a-ce30af709ffc"
+        make:
+          type: string
+          example: "TESLA"
+        model:
+          type: string
+          example: "Model S"
+        year:
+          type: integer
+          example: 2014
+      required:
+        - id
+        - make
+        - model
+        - year
+    Vehicles:
+      type: array
+      items:
+        type: string
+        example: "36ab27d0-fd9d-4455-823a-ce30af709ffc"
+
+    VehiclesResponse:
+      type: object
+      properties:
+        paging:
+          type: object
+          properties:
+            count:
+              type: integer
+            offset:
+              type: integer
+        vehicles:
+          $ref: '#/components/schemas/Vehicles'
+
+    Permission:
+      type: object
+      properties:
+        paging:
+          type: object
+          properties:
+            count:
+              type: integer
+              example: 25
+            offset:
+              type: integer
+              example: 10
+        permissions:
+          type: array
+          items:
+            type: string
+            example: "read_vehicle_info"
+      example:
+        paging:
+          count: 25
+          offset: 10
+        permissions:
+          - "read_vehicle_info"
+
+    Location:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+          example: 37.4292
+        longitude:
+          type: number
+          format: float
+          example: 122.1381
+      required:
+        - latitude
+        - longitude
+    Odometer:
+      type: object
+      properties: 
+        distance:
+          type: number
+          format: float
+          example: 104.32
+    FuelTank:
+      type: object
+      properties: 
+        range:
+          type: number
+          format: float
+          description: The estimated remaining distance the car can travel (in kilometers by default or in miles using the sc-unit-system).
+          example: 320.4
+        percentRemaining:
+          type: number
+          format: float
+          description: The remaining level of fuel in the tank (in percent).
+          example: 0.75
+        amountRemaining:
+          type: number
+          format: float
+          description: The amount of fuel in the tank (in liters by default or in gallons (U.S.) using the sc-unit-system).
+          example: 19.5
+    TirePressure:
+      type: object
+      properties:
+        frontLeft:
+          type: number
+          format: float
+          description: The current air pressure of the front left tire (in kilopascals by default or in pounds per square inch using the sc-unit-system).
+          example: 32.0
+        frontRight:
+          type: number
+          format: float
+          description: The current air pressure of the front right tire (in kilopascals by default or in pounds per square inch using the sc-unit-system).
+          example: 32.0
+        backLeft:
+          type: number
+          format: float
+          description: The current air pressure of the back left tire (in kilopascals by default or in pounds per square inch using the sc-unit-system).
+          example: 32.0
+        backRight:
+          type: number
+          format: float
+          description: The current air pressure of the back right tire (in kilopascals by default or in pounds per square inch using the sc-unit-system).
+          example: 32.0
+    EngineOil:
+      type: object
+      properties: 
+        lifeRemaining:
+          type: number
+          format: float
+          description: The engine oil’s remaining life span (as a percentage). Oil life is based on the current quality of the oil. (in percent).
+          example: 0.75
+    ChargeStatus:
+      type: object
+      properties:
+        isPluggedIn:
+          type: boolean
+          description: Indicates whether a charging cable is currently plugged into the vehicle’s charge port.
+          example: true
+        state:
+          type: string
+          enum: [CHARGING, FULLY_CHARGED, NOT_CHARGING]
+          example: "FULLY_CHARGED"
+    BatteryLevel:
+      type: object
+      properties:
+        percentRemaining:
+          type: number
+          format: float
+          description: An EV battery’s state of charge (in percent).
+          example: 0.75
+        range:
+          type: number
+          format: float
+          description: The estimated remaining distance the vehicle can travel (in kilometers by default or in miles using the sc-unit-system).
+          example: 40.5
+    BatteryCapacity:
+      type: object
+      properties:
+        capacity:
+          type: number
+          format: float
+          description: The total capacity of the vehicle's battery (in kilowatt-hours).
+          example: 40.5
+
+    CompatibilityResponse:
+      type: object
+      properties: 
+        compatible:
+          type: boolean
+          example: true
+        reason:
+          type: string
+          nullable: true
+        capabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Capability"
+    Capability:
+      type: object
+      properties:
+        permission:
+          type: string
+          example: "read_odometer"
+        endpoint:
+          type: string
+          example: "/odometer"
+        capable:
+          type: boolean
+          example: true
+        reason:
+          type: string
+          nullable: true
+    SecurityAction:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [LOCK, UNLOCK]
+          example: UNLOCK
+    SecurityResponse:
+      type: object
+      properties: 
+        status:
+          type: string
+          enum: [SUCCESS, FAILED]
+          example: SUCCESS
+        message:
+          type: string
+          nullable: true
