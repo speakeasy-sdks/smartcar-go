@@ -37,7 +37,6 @@ func (e *ChargeStatusStateEnum) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// ChargeStatus - return EV Charge reading
 type ChargeStatus struct {
 	// Indicates whether a charging cable is currently plugged into the vehicle’s charge port.
 	IsPluggedIn *bool                  `json:"isPluggedIn,omitempty"`

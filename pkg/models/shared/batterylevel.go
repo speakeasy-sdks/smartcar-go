@@ -2,7 +2,6 @@
 
 package shared
 
-// BatteryLevel - return EV Battery Level reading
 type BatteryLevel struct {
 	// An EV battery’s state of charge (in percent).
 	PercentRemaining *float32 `json:"percentRemaining,omitempty"`
