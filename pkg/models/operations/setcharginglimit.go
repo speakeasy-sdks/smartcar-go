@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-type LockUnlockRequest struct {
-	VehicleID      string                 `pathParam:"style=simple,explode=false,name=vehicle_id"`
-	SecurityAction *shared.SecurityAction `request:"mediaType=application/json"`
+type SetChargingLimitRequest struct {
+	VehicleID   string              `pathParam:"style=simple,explode=false,name=vehicle_id"`
+	ChargeLimit *shared.ChargeLimit `request:"mediaType=application/json"`
 }
 
-type LockUnlockResponse struct {
+type SetChargingLimitResponse struct {
 	ContentType string
 	StatusCode  int
 	RawResponse *http.Response
-	// return Compatibility
+	// return Success Response
 	SuccessResponse *shared.SuccessResponse
 }

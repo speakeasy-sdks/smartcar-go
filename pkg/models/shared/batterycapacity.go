@@ -2,7 +2,6 @@
 
 package shared
 
-// BatteryCapacity - return EV Battery Capacity reading
 type BatteryCapacity struct {
 	// The total capacity of the vehicle's battery (in kilowatt-hours).
 	Capacity *float32 `json:"capacity,omitempty"`

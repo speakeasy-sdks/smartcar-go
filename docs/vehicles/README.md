@@ -6,6 +6,7 @@ Operations about vehicles
 
 ### Available Operations
 
+* [Batch](#batch) - Batch
 * [Disconnect](#disconnect) - Revoke Access
 * [Get](#get) - Vehicle Info
 * [GetEngineOil](#getengineoil) - Engine Oil Life
@@ -14,8 +15,47 @@ Operations about vehicles
 * [GetOdometer](#getodometer) - Odometer
 * [GetPermissions](#getpermissions) - Application Permissions
 * [GetTirePressure](#gettirepressure) - Tire pressure
+* [GetVin](#getvin) - Returns the vehicle’s manufacturer identifier.
 * [ListVehicles](#listvehicles) - All Vehicles
-* [LockUnlock](#lockunlock) - Unlock Vehicle
+* [LockUnlock](#lockunlock) - Lock/Unlock Vehicle
+
+## Batch
+
+__Description__ Returns a list of responses from multiple Smartcar endpoints, all combined into a single request. Note: Batch requests is a paid feature. Please contact us to upgrade your plan and obtain access.
+
+### Example Usage
+
+```go
+package main
+
+import(
+	"context"
+	"log"
+	"github.com/speakeasy-sdks/smartcar-go"
+	"github.com/speakeasy-sdks/smartcar-go/pkg/models/operations"
+)
+
+func main() {
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
+            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+        }),
+    )
+
+    ctx := context.Background()
+    res, err := s.Vehicles.Batch(ctx, "deserunt", []string{
+        "/odometer",
+        "/odometer",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    if res.BatchResponse != nil {
+        // handle response
+    }
+}
+```
 
 ## Disconnect
 
@@ -49,7 +89,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.Disconnect(ctx, "quibusdam")
+    res, err := s.Vehicles.Disconnect(ctx, "iure")
     if err != nil {
         log.Fatal(err)
     }
@@ -99,7 +139,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.Get(ctx, "unde")
+    res, err := s.Vehicles.Get(ctx, "magnam")
     if err != nil {
         log.Fatal(err)
     }
@@ -146,7 +186,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetEngineOil(ctx, "nulla")
+    res, err := s.Vehicles.GetEngineOil(ctx, "debitis")
     if err != nil {
         log.Fatal(err)
     }
@@ -195,7 +235,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetFuelTank(ctx, "corrupti")
+    res, err := s.Vehicles.GetFuelTank(ctx, "ipsa")
     if err != nil {
         log.Fatal(err)
     }
@@ -290,7 +330,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetOdometer(ctx, "illum")
+    res, err := s.Vehicles.GetOdometer(ctx, "delectus")
     if err != nil {
         log.Fatal(err)
     }
@@ -344,7 +384,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetPermissions(ctx, "vel", 623564, 645894)
+    res, err := s.Vehicles.GetPermissions(ctx, "tempora", 383441, 477665)
     if err != nil {
         log.Fatal(err)
     }
@@ -393,12 +433,49 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetTirePressure(ctx, "suscipit")
+    res, err := s.Vehicles.GetTirePressure(ctx, "minus")
     if err != nil {
         log.Fatal(err)
     }
 
     if res.TirePressure != nil {
+        // handle response
+    }
+}
+```
+
+## GetVin
+
+__Description__
+
+Returns the vehicle’s manufacturer identifier.
+
+### Example Usage
+
+```go
+package main
+
+import(
+	"context"
+	"log"
+	"github.com/speakeasy-sdks/smartcar-go"
+	"github.com/speakeasy-sdks/smartcar-go/pkg/models/operations"
+)
+
+func main() {
+    s := smartcar.New(
+        smartcar.WithSecurity(shared.Security{
+            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+        }),
+    )
+
+    ctx := context.Background()
+    res, err := s.Vehicles.GetVin(ctx, "placeat")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    if res.VinInfo != nil {
         // handle response
     }
 }
@@ -447,7 +524,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.ListVehicles(ctx, 437587, 297534)
+    res, err := s.Vehicles.ListVehicles(ctx, 528895, 479977)
     if err != nil {
         log.Fatal(err)
     }
@@ -495,14 +572,14 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.LockUnlock(ctx, "debitis", &shared.SecurityAction{
+    res, err := s.Vehicles.LockUnlock(ctx, "excepturi", &shared.SecurityAction{
         Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
     })
     if err != nil {
         log.Fatal(err)
     }
 
-    if res.SecurityResponse != nil {
+    if res.SuccessResponse != nil {
         // handle response
     }
 }

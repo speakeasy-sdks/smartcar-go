@@ -33,6 +33,67 @@ func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, 
 	}
 }
 
+// Batch - Batch
+// __Description__ Returns a list of responses from multiple Smartcar endpoints, all combined into a single request. Note: Batch requests is a paid feature. Please contact us to upgrade your plan and obtain access.
+
+func (s *vehicles) Batch(ctx context.Context, vehicleID string, requestBody []string) (*operations.BatchResponse, error) {
+	request := operations.BatchRequest{
+		VehicleID:   vehicleID,
+		RequestBody: requestBody,
+	}
+
+	baseURL := s.serverURL
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/batch", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, "RequestBody", "json")
+	if err != nil {
+		return nil, fmt.Errorf("error serializing request body: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+
+	req.Header.Set("Content-Type", reqContentType)
+
+	client := s.securityClient
+
+	httpRes, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("error sending request: %w", err)
+	}
+	if httpRes == nil {
+		return nil, fmt.Errorf("error sending request: no response")
+	}
+	defer httpRes.Body.Close()
+
+	contentType := httpRes.Header.Get("Content-Type")
+
+	res := &operations.BatchResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: contentType,
+		RawResponse: httpRes,
+	}
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(contentType, `application/json`):
+			var out *shared.BatchResponse
+			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+				return nil, err
+			}
+
+			res.BatchResponse = out
+		}
+	}
+
+	return res, nil
+}
+
 // Disconnect - Revoke Access
 // __Description__
 //
@@ -570,6 +631,61 @@ func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*oper
 	return res, nil
 }
 
+// GetVin - Returns the vehicle’s manufacturer identifier.
+// __Description__
+//
+// Returns the vehicle’s manufacturer identifier.
+
+func (s *vehicles) GetVin(ctx context.Context, vehicleID string) (*operations.GetVinResponse, error) {
+	request := operations.GetVinRequest{
+		VehicleID: vehicleID,
+	}
+
+	baseURL := s.serverURL
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/vin", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+
+	client := s.securityClient
+
+	httpRes, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("error sending request: %w", err)
+	}
+	if httpRes == nil {
+		return nil, fmt.Errorf("error sending request: no response")
+	}
+	defer httpRes.Body.Close()
+
+	contentType := httpRes.Header.Get("Content-Type")
+
+	res := &operations.GetVinResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: contentType,
+		RawResponse: httpRes,
+	}
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(contentType, `application/json`):
+			var out *shared.VinInfo
+			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+				return nil, err
+			}
+
+			res.VinInfo = out
+		}
+	}
+
+	return res, nil
+}
+
 // ListVehicles - All Vehicles
 // __Description__
 //
@@ -644,7 +760,7 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 	return res, nil
 }
 
-// LockUnlock - Unlock Vehicle
+// LockUnlock - Lock/Unlock Vehicle
 // __Description__
 //
 // Unlock the vehicle
@@ -705,12 +821,12 @@ func (s *vehicles) LockUnlock(ctx context.Context, vehicleID string, securityAct
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
-			var out *shared.SecurityResponse
+			var out *shared.SuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
 				return nil, err
 			}
 
-			res.SecurityResponse = out
+			res.SuccessResponse = out
 		}
 	}
 

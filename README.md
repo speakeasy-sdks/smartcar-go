@@ -52,6 +52,16 @@ func main() {
 ## Available Resources and Operations
 
 
+### [Cadillac](docs/cadillac/README.md)
+
+* [GetChargeTime](docs/cadillac/README.md#getchargetime) - Retrieve charging completion time for a Cadillac.
+* [GetVoltage](docs/cadillac/README.md#getvoltage) - Retrieve charging voltmeter time for a Cadillac.
+
+### [Chevrolet](docs/chevrolet/README.md)
+
+* [GetChargeTime](docs/chevrolet/README.md#getchargetime) - Retrieve charging completion time for a Chevrolet.
+* [GetVoltage](docs/chevrolet/README.md#getvoltage) - Retrieve charging voltmeter time for a Chevrolet.
+
 ### [Compatibility](docs/compatibility/README.md)
 
 * [ListCompatibility](docs/compatibility/README.md#listcompatibility) - Compatibility
@@ -60,10 +70,18 @@ func main() {
 
 * [GetBatteryCapacity](docs/evs/README.md#getbatterycapacity) - EV Battery Capacity
 * [GetBatteryLevel](docs/evs/README.md#getbatterylevel) - EV Battery Level
+* [GetChargingLimit](docs/evs/README.md#getcharginglimit) - EV Charging Limit
 * [GetChargingStatus](docs/evs/README.md#getchargingstatus) - EV Charging Status
+* [SetChargingLimit](docs/evs/README.md#setcharginglimit) - Set EV Charging Limit
+* [StartStopCharge](docs/evs/README.md#startstopcharge) - Start or stop charging an electric vehicle. Please contact us to request early access.
+
+### [User](docs/user/README.md)
+
+* [GetInfo](docs/user/README.md#getinfo) - User Info
 
 ### [Vehicles](docs/vehicles/README.md)
 
+* [Batch](docs/vehicles/README.md#batch) - Batch
 * [Disconnect](docs/vehicles/README.md#disconnect) - Revoke Access
 * [Get](docs/vehicles/README.md#get) - Vehicle Info
 * [GetEngineOil](docs/vehicles/README.md#getengineoil) - Engine Oil Life
@@ -72,8 +90,9 @@ func main() {
 * [GetOdometer](docs/vehicles/README.md#getodometer) - Odometer
 * [GetPermissions](docs/vehicles/README.md#getpermissions) - Application Permissions
 * [GetTirePressure](docs/vehicles/README.md#gettirepressure) - Tire pressure
+* [GetVin](docs/vehicles/README.md#getvin) - Returns the vehicle’s manufacturer identifier.
 * [ListVehicles](docs/vehicles/README.md#listvehicles) - All Vehicles
-* [LockUnlock](docs/vehicles/README.md#lockunlock) - Unlock Vehicle
+* [LockUnlock](docs/vehicles/README.md#lockunlock) - Lock/Unlock Vehicle
 <!-- End SDK Available Operations -->
 
 ### Maturity

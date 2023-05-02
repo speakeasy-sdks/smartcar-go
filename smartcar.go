@@ -41,10 +41,13 @@ func Float64(f float64) *float64 { return &f }
 // Smartcar - # How do I use Postman with Smartcar?
 // We've detailed how to get started with Smartcar in Postman [here](https://www.notion.so/smartcarapi/How-do-I-use-Postman-with-Smartcar-b8e8483bae8b43a986715582beb54bd4).
 type Smartcar struct {
+	Cadillac  *cadillac
+	Chevrolet *chevrolet
 	// Compatibility - Operations about compatibility
 	Compatibility *compatibility
 	// Evs - Operations about electric vehicles
-	Evs *evs
+	Evs  *evs
+	User *user
 	// Vehicles - Operations about vehicles
 	Vehicles *vehicles
 
@@ -96,7 +99,7 @@ func WithSecurity(security shared.Security) SDKOption {
 func New(opts ...SDKOption) *Smartcar {
 	sdk := &Smartcar{
 		_language:   "go",
-		_sdkVersion: "1.1.1",
+		_sdkVersion: "1.1.2",
 		_genVersion: "2.24.0",
 	}
 	for _, opt := range opts {
@@ -119,6 +122,24 @@ func New(opts ...SDKOption) *Smartcar {
 		sdk._serverURL = ServerList[0]
 	}
 
+	sdk.Cadillac = newCadillac(
+		sdk._defaultClient,
+		sdk._securityClient,
+		sdk._serverURL,
+		sdk._language,
+		sdk._sdkVersion,
+		sdk._genVersion,
+	)
+
+	sdk.Chevrolet = newChevrolet(
+		sdk._defaultClient,
+		sdk._securityClient,
+		sdk._serverURL,
+		sdk._language,
+		sdk._sdkVersion,
+		sdk._genVersion,
+	)
+
 	sdk.Compatibility = newCompatibility(
 		sdk._defaultClient,
 		sdk._securityClient,
@@ -129,6 +150,15 @@ func New(opts ...SDKOption) *Smartcar {
 	)
 
 	sdk.Evs = newEvs(
+		sdk._defaultClient,
+		sdk._securityClient,
+		sdk._serverURL,
+		sdk._language,
+		sdk._sdkVersion,
+		sdk._genVersion,
+	)
+
+	sdk.User = newUser(
 		sdk._defaultClient,
 		sdk._securityClient,
 		sdk._serverURL,
