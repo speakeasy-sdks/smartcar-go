@@ -19,18 +19,18 @@ func (e SecurityActionActionEnum) ToPointer() *SecurityActionActionEnum {
 }
 
 func (e *SecurityActionActionEnum) UnmarshalJSON(data []byte) error {
-	var s string
-	if err := json.Unmarshal(data, &s); err != nil {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
-	switch s {
+	switch v {
 	case "LOCK":
 		fallthrough
 	case "UNLOCK":
-		*e = SecurityActionActionEnum(s)
+		*e = SecurityActionActionEnum(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for SecurityActionActionEnum: %s", s)
+		return fmt.Errorf("invalid value for SecurityActionActionEnum: %v", v)
 	}
 }
 

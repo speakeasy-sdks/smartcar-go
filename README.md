@@ -36,10 +36,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetLocationRequest{}
-
-    res, err := s.Vehicles.GetLocation(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetLocation(ctx, "36ab27d0-fd9d-4455-823a-ce30af709ffc")
     if err != nil {
         log.Fatal(err)
     }
