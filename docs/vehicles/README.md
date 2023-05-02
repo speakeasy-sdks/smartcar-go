@@ -46,7 +46,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -97,7 +96,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -145,7 +143,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -195,7 +192,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -244,7 +240,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -292,7 +287,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -347,11 +341,10 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetPermissions(ctx, 423655, 623564, "deserunt")
+    res, err := s.Vehicles.GetPermissions(ctx, "vel", 623564, 645894)
     if err != nil {
         log.Fatal(err)
     }
@@ -397,7 +390,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -452,7 +444,6 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
@@ -501,13 +492,12 @@ func main() {
         smartcar.WithSecurity(shared.Security{
             BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
         }),
-        smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.LockUnlock(ctx, &shared.SecurityAction{
+    res, err := s.Vehicles.LockUnlock(ctx, "debitis", &shared.SecurityAction{
         Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
-    }, "debitis")
+    })
     if err != nil {
         log.Fatal(err)
     }

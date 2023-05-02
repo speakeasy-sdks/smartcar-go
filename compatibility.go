@@ -20,10 +20,9 @@ type compatibility struct {
 	language       string
 	sdkVersion     string
 	genVersion     string
-	globals        map[string]map[string]map[string]interface{}
 }
 
-func newCompatibility(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string, globals map[string]map[string]map[string]interface{}) *compatibility {
+func newCompatibility(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string) *compatibility {
 	return &compatibility{
 		defaultClient:  defaultClient,
 		securityClient: securityClient,
@@ -31,7 +30,6 @@ func newCompatibility(defaultClient, securityClient HTTPClient, serverURL, langu
 		language:       language,
 		sdkVersion:     sdkVersion,
 		genVersion:     genVersion,
-		globals:        globals,
 	}
 }
 
@@ -86,7 +84,7 @@ func (s *compatibility) ListCompatibility(ctx context.Context, country *string, 
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	if err := utils.PopulateQueryParams(ctx, req, request, s.globals); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 

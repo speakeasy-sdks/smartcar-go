@@ -20,10 +20,9 @@ type vehicles struct {
 	language       string
 	sdkVersion     string
 	genVersion     string
-	globals        map[string]map[string]map[string]interface{}
 }
 
-func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string, globals map[string]map[string]map[string]interface{}) *vehicles {
+func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string) *vehicles {
 	return &vehicles{
 		defaultClient:  defaultClient,
 		securityClient: securityClient,
@@ -31,7 +30,6 @@ func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, 
 		language:       language,
 		sdkVersion:     sdkVersion,
 		genVersion:     genVersion,
-		globals:        globals,
 	}
 }
 
@@ -46,13 +44,13 @@ func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, 
 // |---	|---	|---	|
 // |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
 
-func (s *vehicles) Disconnect(ctx context.Context, vehicleID *string) (*operations.DisconnectResponse, error) {
+func (s *vehicles) Disconnect(ctx context.Context, vehicleID string) (*operations.DisconnectResponse, error) {
 	request := operations.DisconnectRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/application", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/application", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -114,13 +112,13 @@ func (s *vehicles) Disconnect(ctx context.Context, vehicleID *string) (*operatio
 // |`model`|integer|The model of the vehicle.|
 // |`year`|integer|The model year.|
 
-func (s *vehicles) Get(ctx context.Context, vehicleID *string) (*operations.GetVehicleResponse, error) {
+func (s *vehicles) Get(ctx context.Context, vehicleID string) (*operations.GetVehicleResponse, error) {
 	request := operations.GetVehicleRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -179,13 +177,13 @@ func (s *vehicles) Get(ctx context.Context, vehicleID *string) (*operations.GetV
 // |---	|---	|---	|
 // |  `lifeRemaining`|   number|  The engine oil’s remaining life span (as a percentage). Oil life is based on the current quality of the oil. (in percent).|
 
-func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID *string) (*operations.GetEngineOilResponse, error) {
+func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID string) (*operations.GetEngineOilResponse, error) {
 	request := operations.GetEngineOilRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/engine/oil", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/engine/oil", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -246,13 +244,13 @@ func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID *string) (*operat
 // |`percentRemaining`|number|The remaining level of fuel in the tank (in percent).|
 // |`amountRemaining`|number|The amount of fuel in the tank (in liters by default or in gallons (U.S.) using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 
-func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID *string) (*operations.GetFuelTankResponse, error) {
+func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID string) (*operations.GetFuelTankResponse, error) {
 	request := operations.GetFuelTankRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/fuel", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/fuel", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -312,13 +310,13 @@ func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID *string) (*operati
 // |`latitude`|number|The latitude (in degrees).|
 // |`longitude`|number|The longitude (in degrees).|
 
-func (s *vehicles) GetLocation(ctx context.Context, vehicleID *string) (*operations.GetLocationResponse, error) {
+func (s *vehicles) GetLocation(ctx context.Context, vehicleID string) (*operations.GetLocationResponse, error) {
 	request := operations.GetLocationRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/location", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/location", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -377,13 +375,13 @@ func (s *vehicles) GetLocation(ctx context.Context, vehicleID *string) (*operati
 // |--|--|--|
 // |`distance`|number|The current odometer of the vehicle (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 
-func (s *vehicles) GetOdometer(ctx context.Context, vehicleID *string) (*operations.GetOdometerResponse, error) {
+func (s *vehicles) GetOdometer(ctx context.Context, vehicleID string) (*operations.GetOdometerResponse, error) {
 	request := operations.GetOdometerRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/odometer", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/odometer", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -449,15 +447,15 @@ func (s *vehicles) GetOdometer(ctx context.Context, vehicleID *string) (*operati
 // |`paging.count`|integer|The total number of elements for the entire query (not just the given page).|
 // |`paging.offset`|integer|The current start index of the returned list of elements.|
 
-func (s *vehicles) GetPermissions(ctx context.Context, limit *int64, offset *int64, vehicleID *string) (*operations.GetPermissionsResponse, error) {
+func (s *vehicles) GetPermissions(ctx context.Context, vehicleID string, limit *int64, offset *int64) (*operations.GetPermissionsResponse, error) {
 	request := operations.GetPermissionsRequest{
+		VehicleID: vehicleID,
 		Limit:     limit,
 		Offset:    offset,
-		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/permissions", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/permissions", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -467,7 +465,7 @@ func (s *vehicles) GetPermissions(ctx context.Context, limit *int64, offset *int
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	if err := utils.PopulateQueryParams(ctx, req, request, s.globals); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -522,13 +520,13 @@ func (s *vehicles) GetPermissions(ctx context.Context, limit *int64, offset *int
 // |`backLeft`|number|The current air pressure of the back left tire (in kilopascals by default or in pounds per square inch using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 // |`backRight`|number|The current air pressure of the back right tire (in kilopascals by default or in pounds per square inch using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 
-func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID *string) (*operations.GetTirePressureResponse, error) {
+func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*operations.GetTirePressureResponse, error) {
 	request := operations.GetTirePressureRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/tires/pressure", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/tires/pressure", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -608,7 +606,7 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
 
-	if err := utils.PopulateQueryParams(ctx, req, request, s.globals); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -661,14 +659,14 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 // |---	|---	|---	|
 // |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
 
-func (s *vehicles) LockUnlock(ctx context.Context, securityAction *shared.SecurityAction, vehicleID *string) (*operations.LockUnlockResponse, error) {
+func (s *vehicles) LockUnlock(ctx context.Context, vehicleID string, securityAction *shared.SecurityAction) (*operations.LockUnlockResponse, error) {
 	request := operations.LockUnlockRequest{
-		SecurityAction: securityAction,
 		VehicleID:      vehicleID,
+		SecurityAction: securityAction,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/security", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/security", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

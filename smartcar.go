@@ -56,7 +56,6 @@ type Smartcar struct {
 	_language       string
 	_sdkVersion     string
 	_genVersion     string
-	_globals        map[string]map[string]map[string]interface{}
 }
 
 type SDKOption func(*Smartcar)
@@ -93,27 +92,12 @@ func WithSecurity(security shared.Security) SDKOption {
 	}
 }
 
-// WithVehicleID allows setting the VehicleID parameter for all supported operations
-func WithVehicleID(vehicleID string) SDKOption {
-	return func(sdk *Smartcar) {
-		if _, ok := sdk._globals["parameters"]["pathParam"]; !ok {
-			sdk._globals["parameters"]["pathParam"] = map[string]interface{}{}
-		}
-
-		sdk._globals["parameters"]["pathParam"]["VehicleID"] = vehicleID
-	}
-}
-
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *Smartcar {
 	sdk := &Smartcar{
 		_language:   "go",
-		_sdkVersion: "1.1.0",
+		_sdkVersion: "1.1.1",
 		_genVersion: "2.24.0",
-
-		_globals: map[string]map[string]map[string]interface{}{
-			"parameters": {},
-		},
 	}
 	for _, opt := range opts {
 		opt(sdk)
@@ -142,7 +126,6 @@ func New(opts ...SDKOption) *Smartcar {
 		sdk._language,
 		sdk._sdkVersion,
 		sdk._genVersion,
-		sdk._globals,
 	)
 
 	sdk.Evs = newEvs(
@@ -152,7 +135,6 @@ func New(opts ...SDKOption) *Smartcar {
 		sdk._language,
 		sdk._sdkVersion,
 		sdk._genVersion,
-		sdk._globals,
 	)
 
 	sdk.Vehicles = newVehicles(
@@ -162,7 +144,6 @@ func New(opts ...SDKOption) *Smartcar {
 		sdk._language,
 		sdk._sdkVersion,
 		sdk._genVersion,
-		sdk._globals,
 	)
 
 	return sdk

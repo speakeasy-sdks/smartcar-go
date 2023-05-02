@@ -19,10 +19,9 @@ type evs struct {
 	language       string
 	sdkVersion     string
 	genVersion     string
-	globals        map[string]map[string]map[string]interface{}
 }
 
-func newEvs(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string, globals map[string]map[string]map[string]interface{}) *evs {
+func newEvs(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string) *evs {
 	return &evs{
 		defaultClient:  defaultClient,
 		securityClient: securityClient,
@@ -30,7 +29,6 @@ func newEvs(defaultClient, securityClient HTTPClient, serverURL, language, sdkVe
 		language:       language,
 		sdkVersion:     sdkVersion,
 		genVersion:     genVersion,
-		globals:        globals,
 	}
 }
 
@@ -49,13 +47,13 @@ func newEvs(defaultClient, securityClient HTTPClient, serverURL, language, sdkVe
 // |---	|---	|---	|
 // |  capacity|   number|  The total capacity of the vehicle's battery (in kilowatt-hours). 	|
 
-func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID *string) (*operations.GetBatteryCapacityResponse, error) {
+func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID string) (*operations.GetBatteryCapacityResponse, error) {
 	request := operations.GetBatteryCapacityRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/battery/capacity", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/battery/capacity", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -115,13 +113,13 @@ func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID *string) (*opera
 // |  `percentRemaining`|   number|  An EV battery’s state of charge (in percent). 	|
 // |   `range`|   number	|   The estimated remaining distance the vehicle can travel (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers).	|
 
-func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID *string) (*operations.GetBatteryLevelResponse, error) {
+func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID string) (*operations.GetBatteryLevelResponse, error) {
 	request := operations.GetBatteryLevelRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/battery", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/battery", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -181,13 +179,13 @@ func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID *string) (*operatio
 // |  `isPluggedIn` 	|   boolean	|  Indicates whether a charging cable is currently plugged into the vehicle’s charge port. 	|
 // |   `state`	|   string	|   Indicates whether the vehicle is currently charging. Options: `CHARGING` `FULLY_CHARGED` `NOT_CHARGING`	|
 
-func (s *evs) GetChargingStatus(ctx context.Context, vehicleID *string) (*operations.GetChargingStatusResponse, error) {
+func (s *evs) GetChargingStatus(ctx context.Context, vehicleID string) (*operations.GetChargingStatusResponse, error) {
 	request := operations.GetChargingStatusRequest{
 		VehicleID: vehicleID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/charge", request, s.globals)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/charge", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

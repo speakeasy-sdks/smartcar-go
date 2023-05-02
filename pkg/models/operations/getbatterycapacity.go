@@ -8,7 +8,7 @@ import (
 )
 
 type GetBatteryCapacityRequest struct {
-	VehicleID *string `pathParam:"style=simple,explode=false,name=vehicle_id"`
+	VehicleID string `pathParam:"style=simple,explode=false,name=vehicle_id"`
 }
 
 type GetBatteryCapacityResponse struct {
