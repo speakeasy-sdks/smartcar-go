@@ -23,13 +23,13 @@ tags:
 x-speakeasy-name-overrides:
   - operationId: ^list.*
     methodNameOverride: list
-x-speakeasy-globals:
-  parameters:
-    - name: vehicle_id
-      in: path
-      schema:
-        type: string
-        example: 36ab27d0-fd9d-4455-823a-ce30af709ffc
+#x-speakeasy-globals:
+#  parameters:
+#    - name: vehicle_id
+#      in: path
+#      schema:
+#        type: string
+#        example: 36ab27d0-fd9d-4455-823a-ce30af709ffc
 paths:
   /vehicles:
     get:
