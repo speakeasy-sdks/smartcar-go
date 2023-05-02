@@ -9,5 +9,6 @@ generation:
   sdkClassName: Smartcar
   singleTagPerOp: false
 go:
+  maxMethodParams: 5
   version: 1.0.1
   packageName: github.com/speakeasy-sdks/smartcar-go
