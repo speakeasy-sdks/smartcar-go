@@ -49,10 +49,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.DisconnectRequest{}
-
-    res, err := s.Vehicles.Disconnect(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.Disconnect(ctx, "quibusdam")
     if err != nil {
         log.Fatal(err)
     }
@@ -102,10 +100,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetVehicleRequest{}
-
-    res, err := s.Vehicles.Get(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.Get(ctx, "unde")
     if err != nil {
         log.Fatal(err)
     }
@@ -152,10 +148,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetEngineOilRequest{}
-
-    res, err := s.Vehicles.GetEngineOil(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetEngineOil(ctx, "nulla")
     if err != nil {
         log.Fatal(err)
     }
@@ -204,10 +198,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetFuelTankRequest{}
-
-    res, err := s.Vehicles.GetFuelTank(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetFuelTank(ctx, "corrupti")
     if err != nil {
         log.Fatal(err)
     }
@@ -255,10 +247,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetLocationRequest{}
-
-    res, err := s.Vehicles.GetLocation(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetLocation(ctx, "36ab27d0-fd9d-4455-823a-ce30af709ffc")
     if err != nil {
         log.Fatal(err)
     }
@@ -305,10 +295,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetOdometerRequest{}
-
-    res, err := s.Vehicles.GetOdometer(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetOdometer(ctx, "illum")
     if err != nil {
         log.Fatal(err)
     }
@@ -362,13 +350,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetPermissionsRequest{
-        Limit: smartcar.Int64(548814),
-        Offset: smartcar.Int64(592845),
-    }
-
-    res, err := s.Vehicles.GetPermissions(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetPermissions(ctx, 423655, 623564, "deserunt")
     if err != nil {
         log.Fatal(err)
     }
@@ -417,10 +400,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetTirePressureRequest{}
-
-    res, err := s.Vehicles.GetTirePressure(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.GetTirePressure(ctx, "suscipit")
     if err != nil {
         log.Fatal(err)
     }
@@ -474,13 +455,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.ListVehiclesRequest{
-        Limit: smartcar.Int64(715190),
-        Offset: smartcar.Int64(844266),
-    }
-
-    res, err := s.Vehicles.ListVehicles(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.ListVehicles(ctx, 437587, 297534)
     if err != nil {
         log.Fatal(err)
     }
@@ -528,14 +504,10 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.LockUnlockRequest{
-        SecurityAction: &shared.SecurityAction{
-            Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
-        },
-    }
-
-    res, err := s.Vehicles.LockUnlock(ctx, req)
+    ctx := context.Background()
+    res, err := s.Vehicles.LockUnlock(ctx, &shared.SecurityAction{
+        Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
+    }, "debitis")
     if err != nil {
         log.Fatal(err)
     }

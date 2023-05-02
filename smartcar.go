@@ -108,8 +108,8 @@ func WithVehicleID(vehicleID string) SDKOption {
 func New(opts ...SDKOption) *Smartcar {
 	sdk := &Smartcar{
 		_language:   "go",
-		_sdkVersion: "1.0.1",
-		_genVersion: "2.21.1",
+		_sdkVersion: "1.1.0",
+		_genVersion: "2.24.0",
 
 		_globals: map[string]map[string]map[string]interface{}{
 			"parameters": {},

@@ -46,10 +46,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetBatteryCapacityRequest{}
-
-    res, err := s.Evs.GetBatteryCapacity(ctx, req)
+    ctx := context.Background()
+    res, err := s.Evs.GetBatteryCapacity(ctx, "corrupti")
     if err != nil {
         log.Fatal(err)
     }
@@ -97,10 +95,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetBatteryLevelRequest{}
-
-    res, err := s.Evs.GetBatteryLevel(ctx, req)
+    ctx := context.Background()
+    res, err := s.Evs.GetBatteryLevel(ctx, "provident")
     if err != nil {
         log.Fatal(err)
     }
@@ -148,10 +144,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.GetChargingStatusRequest{}
-
-    res, err := s.Evs.GetChargingStatus(ctx, req)
+    ctx := context.Background()
+    res, err := s.Evs.GetChargingStatus(ctx, "distinctio")
     if err != nil {
         log.Fatal(err)
     }

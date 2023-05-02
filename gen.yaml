@@ -2,13 +2,13 @@ configVersion: 1.0.0
 management:
   docChecksum: 686003ba6934443b36c267465bfed6d3
   docVersion: 1.0.0
-  speakeasyVersion: 1.23.1
-  generationVersion: 2.21.1
+  speakeasyVersion: 1.27.0
+  generationVersion: 2.24.0
 generation:
   telemetryEnabled: false
   sdkClassName: Smartcar
   singleTagPerOp: false
 go:
+  version: 1.1.0
   maxMethodParams: 5
-  version: 1.0.1
   packageName: github.com/speakeasy-sdks/smartcar-go

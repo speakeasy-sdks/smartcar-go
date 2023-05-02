@@ -20,20 +20,20 @@ func (e ChargeStatusStateEnum) ToPointer() *ChargeStatusStateEnum {
 }
 
 func (e *ChargeStatusStateEnum) UnmarshalJSON(data []byte) error {
-	var s string
-	if err := json.Unmarshal(data, &s); err != nil {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
-	switch s {
+	switch v {
 	case "CHARGING":
 		fallthrough
 	case "FULLY_CHARGED":
 		fallthrough
 	case "NOT_CHARGING":
-		*e = ChargeStatusStateEnum(s)
+		*e = ChargeStatusStateEnum(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for ChargeStatusStateEnum: %s", s)
+		return fmt.Errorf("invalid value for ChargeStatusStateEnum: %v", v)
 	}
 }
 

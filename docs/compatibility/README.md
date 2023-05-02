@@ -65,14 +65,8 @@ func main() {
         smartcar.WithVehicleID(smartcar.String("36ab27d0-fd9d-4455-823a-ce30af709ffc")),
     )
 
-    ctx := context.Background()    
-    req := operations.ListCompatibilityRequest{
-        Country: smartcar.String("{country}"),
-        Scope: smartcar.String("{scope}"),
-        Vin: smartcar.String("{vin}"),
-    }
-
-    res, err := s.Compatibility.ListCompatibility(ctx, req)
+    ctx := context.Background()
+    res, err := s.Compatibility.ListCompatibility(ctx, "{country}", "{scope}", "{vin}")
     if err != nil {
         log.Fatal(err)
     }
