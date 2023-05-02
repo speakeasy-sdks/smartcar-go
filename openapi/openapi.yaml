@@ -32,6 +32,12 @@ x-speakeasy-name-overrides:
 #        example: 36ab27d0-fd9d-4455-823a-ce30af709ffc
 paths:
   /vehicles/{vehicle_id}/batch:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
     post:
       summary: Batch
       tags: 
@@ -494,7 +500,7 @@ paths:
       tags: 
         -  Evs
       description: "__Description__\n\nReturns the current charge limit of an electric vehicle."
-      operationId: getChargingLimit
+      operationId: setChargingLimit
       requestBody:
         content:
           application/json:
@@ -679,7 +685,8 @@ paths:
       tags: 
         -  Cadillac
       description: "__Description__\n\nWhen the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error."
-      operationId: getChargeTime
+      operationId: getCadillacChargeTime
+      x-speakeasy-name-override: getChargeTime
       responses:
         '200':
           description: returns the date and time the vehicle expects to "complete" this charging session.
@@ -700,7 +707,8 @@ paths:
       tags: 
         -  Cadillac
       description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
-      operationId: getVoltage
+      operationId: getCadillacVoltage
+      x-speakeasy-name-override: getVoltage
       responses:
         '200':
           description: returns the voltage of the charger measured by the vehicle.
@@ -720,7 +728,8 @@ paths:
       tags: 
         -  Chevrolet
       description: "__Description__\n\nWhen the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error."
-      operationId: getChargeTime
+      operationId: getChevroletChargeTime
+      x-speakeasy-name-override: getChargeTime
       responses:
         '200':
           description: returns the date and time the vehicle expects to "complete" this charging session.
@@ -741,7 +750,8 @@ paths:
       tags: 
         -  Chevrolet
       description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
-      operationId: getVoltage
+      operationId: getChevroletVoltage
+      x-speakeasy-name-override: getVoltage
       responses:
         '200':
           description: returns the voltage of the charger measured by the vehicle.
