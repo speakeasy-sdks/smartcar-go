@@ -31,6 +31,27 @@ x-speakeasy-name-overrides:
 #        type: string
 #        example: 36ab27d0-fd9d-4455-823a-ce30af709ffc
 paths:
+  /vehicles/{vehicle_id}/batch:
+    post:
+      summary: Batch
+      tags: 
+        -  Vehicles
+      operationId: Batch
+      description: >-
+        __Description__
+        Returns a list of responses from multiple Smartcar endpoints, all combined into a single request. Note: Batch requests is a paid feature. Please contact us to upgrade your plan and obtain access.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchRequests'
+      responses:
+        '200':
+          description: 'A list of responses from multiple Smartcar endpoints'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
   /vehicles:
     get:
       summary: All Vehicles
@@ -429,6 +450,63 @@ paths:
             application/json: 
               schema: 
                 $ref: '#/components/schemas/ChargeStatus'
+    post:
+      summary: Start or stop charging an electric vehicle. Please contact us to request early access.
+      tags: 
+        -  Evs
+      description: "__Description__\n\nReturns the current charge status of an electric vehicle.\n\n__Permission__\n\n`read_charge`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  `isPluggedIn` \t|   boolean\t|  Indicates whether a charging cable is currently plugged into the vehicle’s charge port. \t|\n|   `state`\t|   string\t|   Indicates whether the vehicle is currently charging. Options: `CHARGING` `FULLY_CHARGED` `NOT_CHARGING`\t|"
+      operationId: startStopCharge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeAction'
+      responses:
+        '200':
+          description: return Success Response
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /vehicles/{vehicle_id}/charge/limit:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: EV Charging Limit
+      tags: 
+        -  Evs
+      description: "__Description__\n\nReturns the current charge limit of an electric vehicle."
+      operationId: getChargingLimit
+      responses:
+        '200':
+          description: return EV Charge Limit
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/ChargeLimit'
+    post:
+      summary: Set EV Charging Limit
+      tags: 
+        -  Evs
+      description: "__Description__\n\nReturns the current charge limit of an electric vehicle."
+      operationId: getChargingLimit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeLimit'
+      responses:
+        '200':
+          description: return Success Response
+          content:
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/SuccessResponse'
     
   /vehicles/{vehicle_id}/battery:
     parameters:
@@ -496,7 +574,28 @@ paths:
                 enum: 
                   - success
                 example: success
-   
+
+  /vehicles/{vehicle_id}/vin:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Returns the vehicle’s manufacturer identifier.
+      tags: 
+        -  Vehicles
+      description: "__Description__\n\nReturns the vehicle’s manufacturer identifier."
+      operationId: getVin
+      responses:
+        '200':
+          description: return EV Battery Capacity reading
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/VinInfo'
+
   /compatibility:
     get:
       summary: Compatibility
@@ -536,7 +635,7 @@ paths:
         schema:
           type: string
     post:
-      summary: Unlock Vehicle
+      summary: Lock/Unlock Vehicle
       tags: 
         -  Vehicles
       description: "__Description__\n\nUnlock the vehicle\n\n__Permission__\n\n`control_security`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|"
@@ -552,8 +651,105 @@ paths:
           content:
             application/json: 
               schema:
-                $ref: '#/components/schemas/SecurityResponse'
-    
+                $ref: '#/components/schemas/SuccessResponse'
+  /user:
+    get:
+      summary: User Info
+      tags: 
+        -  User
+      description: "__Description__\n\nReturns the id of the vehicle owner who granted access to your application. This should be used as the static unique identifier for storing the access token and refresh token pair in your database. Note: A single user can own multiple vehicles, and multiple users can own the same vehicle."
+      operationId: getInfo
+      responses:
+        '200':
+          description: return User's information
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+
+  /vehicles/{vehicle_id}/cadillac/charge/completion:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging completion time for a Cadillac.
+      tags: 
+        -  Cadillac
+      description: "__Description__\n\nWhen the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error."
+      operationId: getChargeTime
+      responses:
+        '200':
+          description: returns the date and time the vehicle expects to "complete" this charging session.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeTime'
+
+  /vehicles/{vehicle_id}/cadillac/charge/voltmeter:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging voltmeter time for a Cadillac.
+      tags: 
+        -  Cadillac
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: getVoltage
+      responses:
+        '200':
+          description: returns the voltage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeVoltage'
+  /vehicles/{vehicle_id}/chevrolet/charge/completion:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging completion time for a Chevrolet.
+      tags: 
+        -  Chevrolet
+      description: "__Description__\n\nWhen the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error."
+      operationId: getChargeTime
+      responses:
+        '200':
+          description: returns the date and time the vehicle expects to "complete" this charging session.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeTime'
+
+  /vehicles/{vehicle_id}/chevrolet/charge/voltmeter:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging voltmeter time for a Chevrolet.
+      tags: 
+        -  Chevrolet
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: getVoltage
+      responses:
+        '200':
+          description: returns the voltage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeVoltage'
+
 components: 
   securitySchemes: 
     BearerAuth:
@@ -686,6 +882,7 @@ components:
           format: float
           description: The current air pressure of the back right tire (in kilopascals by default or in pounds per square inch using the sc-unit-system).
           example: 32.0
+
     EngineOil:
       type: object
       properties: 
@@ -694,6 +891,7 @@ components:
           format: float
           description: The engine oil’s remaining life span (as a percentage). Oil life is based on the current quality of the oil. (in percent).
           example: 0.75
+
     ChargeStatus:
       type: object
       properties:
@@ -705,6 +903,34 @@ components:
           type: string
           enum: [CHARGING, FULLY_CHARGED, NOT_CHARGING]
           example: "FULLY_CHARGED"
+
+    ChargeLimit:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: float
+          description: The level at which the vehicle should stop charging and be considered fully charged (in percent).
+          example: 1.0
+
+    ChargeTime:
+      type: object
+      properties:
+        time:
+          type: string
+          format: date-time
+          description: The date and time the vehicle expects to complete this charging session.
+          example: "2020-01-01T12:00:00Z"
+
+    ChargeVoltage:
+      type: object
+      properties:
+        voltage:
+          type: number
+          format: float
+          description: The voltage of the charger measured by the vehicle.
+          example: 240.0
+
     BatteryLevel:
       type: object
       properties:
@@ -755,6 +981,23 @@ components:
         reason:
           type: string
           nullable: true
+
+    VinInfo:
+      type: object
+      description: A vehicle’s manufacturer identifier.
+      properties:
+        vin:
+          type: string
+          example: "5YJSA1CN5DFP00101"
+
+    UserInfo:
+      type: object
+      description: A user ID (UUID v4).
+      properties:
+        id:
+          type: string
+          example: "36ab27d0-fd9d-4455-823a-ce30af709ffc"
+
     SecurityAction:
       type: object
       properties:
@@ -762,7 +1005,14 @@ components:
           type: string
           enum: [LOCK, UNLOCK]
           example: UNLOCK
-    SecurityResponse:
+    ChargeAction:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [START, STOP]
+          example: START
+    SuccessResponse:
       type: object
       properties: 
         status:
@@ -772,3 +1022,65 @@ components:
         message:
           type: string
           nullable: true
+
+    BatchResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Response"
+
+    BatchRequests:
+      type: array
+      items:
+        $ref: "#/components/schemas/Path"
+
+    Path:
+      type: string
+      example: "/odometer"
+
+    Header:
+      type: object
+      properties:
+        sc-unit-system:
+          type: string
+          example: "metric"
+        sc-data-age:
+          type: string
+          example: "2019-10-24T00:43:46.000Z"
+
+    Response:
+      type: object
+      properties:
+        code:
+          type: string
+          enum: ["200", "500"]
+          example: The HTTP resonse code.
+        path:
+          type: string
+          example: "/odometer"
+        body:
+          type: object
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/Location"
+            - $ref: "#/components/schemas/Odometer"
+            - $ref: "#/components/schemas/FuelTank"
+            - $ref: "#/components/schemas/TirePressure"
+            - $ref: "#/components/schemas/EngineOil"
+            - $ref: "#/components/schemas/ChargeStatus"
+            - $ref: "#/components/schemas/ChargeLimit"
+            - $ref: "#/components/schemas/ChargeTime"
+            - $ref: "#/components/schemas/ChargeVoltage"
+            - $ref: "#/components/schemas/BatteryLevel"
+            - $ref: "#/components/schemas/BatteryCapacity"
+            - $ref: "#/components/schemas/CompatibilityResponse"
+            - $ref: "#/components/schemas/VinInfo"
+            - $ref: "#/components/schemas/UserInfo"
+            - $ref: "#/components/schemas/SuccessResponse"
+        headers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Header"
+
