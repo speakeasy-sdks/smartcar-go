@@ -9,7 +9,7 @@ import (
 )
 
 type DisconnectRequest struct {
-	VehicleID *string `pathParam:"style=simple,explode=false,name=vehicle_id"`
+	VehicleID string `pathParam:"style=simple,explode=false,name=vehicle_id"`
 }
 
 // DisconnectStatusEnum - Revoke application access
