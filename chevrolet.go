@@ -35,7 +35,6 @@ func newChevrolet(defaultClient, securityClient HTTPClient, serverURL, language,
 // __Description__
 //
 // When the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error.
-
 func (s *chevrolet) GetChargeTime(ctx context.Context, vehicleID string) (*operations.GetChevroletChargeTimeResponse, error) {
 	request := operations.GetChevroletChargeTimeRequest{
 		VehicleID: vehicleID,
@@ -90,7 +89,6 @@ func (s *chevrolet) GetChargeTime(ctx context.Context, vehicleID string) (*opera
 // __Description__
 //
 // When the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error.
-
 func (s *chevrolet) GetVoltage(ctx context.Context, vehicleID string) (*operations.GetChevroletVoltageResponse, error) {
 	request := operations.GetChevroletVoltageRequest{
 		VehicleID: vehicleID,

@@ -39,3 +39,11 @@ Based on:
 - Speakeasy CLI 1.27.0 (2.24.0) https://github.com/speakeasy-api/speakeasy
 ### Releases
 - [Go v1.1.2] https://github.com/speakeasy-sdks/smartcar-go/releases/tag/v1.1.2 - .
+
+## 2023-05-09 10:40:49
+### Changes
+Based on:
+- OpenAPI Doc 1.0.0 
+- Speakeasy CLI 1.29.2 (2.26.2) https://github.com/speakeasy-api/speakeasy
+### Releases
+- [Go v1.2.0] https://github.com/speakeasy-sdks/smartcar-go/releases/tag/v1.2.0 - .

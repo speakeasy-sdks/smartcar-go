@@ -43,7 +43,9 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.Batch(ctx, "deserunt", []string{
+    res, err := s.Vehicles.Batch(ctx, "molestiae", []string{
+        "/odometer",
+        "/odometer",
         "/odometer",
         "/odometer",
     })
@@ -89,7 +91,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.Disconnect(ctx, "iure")
+    res, err := s.Vehicles.Disconnect(ctx, "placeat")
     if err != nil {
         log.Fatal(err)
     }
@@ -139,7 +141,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.Get(ctx, "magnam")
+    res, err := s.Vehicles.Get(ctx, "voluptatum")
     if err != nil {
         log.Fatal(err)
     }
@@ -186,7 +188,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetEngineOil(ctx, "debitis")
+    res, err := s.Vehicles.GetEngineOil(ctx, "iusto")
     if err != nil {
         log.Fatal(err)
     }
@@ -235,7 +237,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetFuelTank(ctx, "ipsa")
+    res, err := s.Vehicles.GetFuelTank(ctx, "excepturi")
     if err != nil {
         log.Fatal(err)
     }
@@ -330,7 +332,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetOdometer(ctx, "delectus")
+    res, err := s.Vehicles.GetOdometer(ctx, "nisi")
     if err != nil {
         log.Fatal(err)
     }
@@ -384,7 +386,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetPermissions(ctx, "tempora", 383441, 477665)
+    res, err := s.Vehicles.GetPermissions(ctx, "recusandae", 836079, 71036)
     if err != nil {
         log.Fatal(err)
     }
@@ -433,7 +435,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetTirePressure(ctx, "minus")
+    res, err := s.Vehicles.GetTirePressure(ctx, "quis")
     if err != nil {
         log.Fatal(err)
     }
@@ -470,7 +472,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.GetVin(ctx, "placeat")
+    res, err := s.Vehicles.GetVin(ctx, "veritatis")
     if err != nil {
         log.Fatal(err)
     }
@@ -524,7 +526,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.ListVehicles(ctx, 528895, 479977)
+    res, err := s.Vehicles.ListVehicles(ctx, 648172, 20218)
     if err != nil {
         log.Fatal(err)
     }
@@ -572,7 +574,7 @@ func main() {
     )
 
     ctx := context.Background()
-    res, err := s.Vehicles.LockUnlock(ctx, "excepturi", &shared.SecurityAction{
+    res, err := s.Vehicles.LockUnlock(ctx, "ipsam", &shared.SecurityAction{
         Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
     })
     if err != nil {
