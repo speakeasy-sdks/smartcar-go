@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-type cadillac struct {
+type webhooks struct {
 	defaultClient  HTTPClient
 	securityClient HTTPClient
 	serverURL      string
@@ -20,8 +20,8 @@ type cadillac struct {
 	genVersion     string
 }
 
-func newCadillac(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string) *cadillac {
-	return &cadillac{
+func newWebhooks(defaultClient, securityClient HTTPClient, serverURL, language, sdkVersion, genVersion string) *webhooks {
+	return &webhooks{
 		defaultClient:  defaultClient,
 		securityClient: securityClient,
 		serverURL:      serverURL,
@@ -31,25 +31,44 @@ func newCadillac(defaultClient, securityClient HTTPClient, serverURL, language, 
 	}
 }
 
-// GetChargeTime - Retrieve charging completion time for a Cadillac.
+// Subscribe - Subscribe Webhook
 // __Description__
 //
-// When the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error.
-func (s *cadillac) GetChargeTime(ctx context.Context, vehicleID string) (*operations.GetCadillacChargeTimeResponse, error) {
-	request := operations.GetCadillacChargeTimeRequest{
-		VehicleID: vehicleID,
+// Subscribe to a webhook for a vehicle.
+//
+// __Permission__
+//
+// `required: webhook:read`
+//
+// __Response body__
+//
+// |  Name 	|Type   	|Boolean   	|
+// |---	|---	|---	|
+// |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
+func (s *webhooks) Subscribe(ctx context.Context, vehicleID string, webhookID string, webhookInfo *shared.WebhookInfo) (*operations.SubscribeResponse, error) {
+	request := operations.SubscribeRequest{
+		VehicleID:   vehicleID,
+		WebhookID:   webhookID,
+		WebhookInfo: webhookInfo,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/cadillac/charge/completion", request, nil)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/webhooks/{webhookId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, "WebhookInfo", "json")
+	if err != nil {
+		return nil, fmt.Errorf("error serializing request body: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
+
+	req.Header.Set("Content-Type", reqContentType)
 
 	client := s.securityClient
 
@@ -64,7 +83,7 @@ func (s *cadillac) GetChargeTime(ctx context.Context, vehicleID string) (*operat
 
 	contentType := httpRes.Header.Get("Content-Type")
 
-	res := &operations.GetCadillacChargeTimeResponse{
+	res := &operations.SubscribeResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: contentType,
 		RawResponse: httpRes,
@@ -73,34 +92,45 @@ func (s *cadillac) GetChargeTime(ctx context.Context, vehicleID string) (*operat
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
-			var out *shared.ChargeTime
+			var out *shared.SuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
 				return nil, err
 			}
 
-			res.ChargeTime = out
+			res.SuccessResponse = out
 		}
 	}
 
 	return res, nil
 }
 
-// GetVoltage - Retrieve charging voltmeter time for a Cadillac.
+// Unsubscribe - Unsubscribe Webhook
 // __Description__
 //
-// When the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error.
-func (s *cadillac) GetVoltage(ctx context.Context, vehicleID string) (*operations.GetCadillacVoltageResponse, error) {
-	request := operations.GetCadillacVoltageRequest{
+// Delete a webhook for a vehicle.
+//
+// __Permission__
+//
+// `required: webhook:read`
+//
+// __Response body__
+//
+// |  Name 	|Type   	|Boolean   	|
+// |---	|---	|---	|
+// |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
+func (s *webhooks) Unsubscribe(ctx context.Context, vehicleID string, webhookID string) (*operations.UnsubscribeResponse, error) {
+	request := operations.UnsubscribeRequest{
 		VehicleID: vehicleID,
+		WebhookID: webhookID,
 	}
 
 	baseURL := s.serverURL
-	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/cadillac/charge/voltmeter", request, nil)
+	url, err := utils.GenerateURL(ctx, baseURL, "/vehicles/{vehicle_id}/webhooks/{webhookId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	req, err := http.NewRequestWithContext(ctx, "DELETE", url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -118,7 +148,7 @@ func (s *cadillac) GetVoltage(ctx context.Context, vehicleID string) (*operation
 
 	contentType := httpRes.Header.Get("Content-Type")
 
-	res := &operations.GetCadillacVoltageResponse{
+	res := &operations.UnsubscribeResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: contentType,
 		RawResponse: httpRes,
@@ -127,12 +157,12 @@ func (s *cadillac) GetVoltage(ctx context.Context, vehicleID string) (*operation
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
-			var out *shared.ChargeVoltage
+			var out *shared.SuccessResponse
 			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
 				return nil, err
 			}
 
-			res.ChargeVoltage = out
+			res.SuccessResponse = out
 		}
 	}
 

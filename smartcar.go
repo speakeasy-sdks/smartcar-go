@@ -46,10 +46,12 @@ type Smartcar struct {
 	// Compatibility - Operations about compatibility
 	Compatibility *compatibility
 	// Evs - Operations about electric vehicles
-	Evs  *evs
-	User *user
+	Evs   *evs
+	Tesla *tesla
+	User  *user
 	// Vehicles - Operations about vehicles
 	Vehicles *vehicles
+	Webhooks *webhooks
 
 	// Non-idiomatic field names below are to namespace fields from the fields names above to avoid name conflicts
 	_defaultClient  HTTPClient
@@ -99,8 +101,8 @@ func WithSecurity(security shared.Security) SDKOption {
 func New(opts ...SDKOption) *Smartcar {
 	sdk := &Smartcar{
 		_language:   "go",
-		_sdkVersion: "1.1.2",
-		_genVersion: "2.24.0",
+		_sdkVersion: "1.2.0",
+		_genVersion: "2.26.2",
 	}
 	for _, opt := range opts {
 		opt(sdk)
@@ -158,6 +160,15 @@ func New(opts ...SDKOption) *Smartcar {
 		sdk._genVersion,
 	)
 
+	sdk.Tesla = newTesla(
+		sdk._defaultClient,
+		sdk._securityClient,
+		sdk._serverURL,
+		sdk._language,
+		sdk._sdkVersion,
+		sdk._genVersion,
+	)
+
 	sdk.User = newUser(
 		sdk._defaultClient,
 		sdk._securityClient,
@@ -168,6 +179,15 @@ func New(opts ...SDKOption) *Smartcar {
 	)
 
 	sdk.Vehicles = newVehicles(
+		sdk._defaultClient,
+		sdk._securityClient,
+		sdk._serverURL,
+		sdk._language,
+		sdk._sdkVersion,
+		sdk._genVersion,
+	)
+
+	sdk.Webhooks = newWebhooks(
 		sdk._defaultClient,
 		sdk._securityClient,
 		sdk._serverURL,

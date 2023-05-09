@@ -46,7 +46,6 @@ func newEvs(defaultClient, securityClient HTTPClient, serverURL, language, sdkVe
 // |  Name 	|Type   	|Boolean   	|
 // |---	|---	|---	|
 // |  capacity|   number|  The total capacity of the vehicle's battery (in kilowatt-hours). 	|
-
 func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID string) (*operations.GetBatteryCapacityResponse, error) {
 	request := operations.GetBatteryCapacityRequest{
 		VehicleID: vehicleID,
@@ -112,7 +111,6 @@ func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID string) (*operat
 // |---	|---	|---	|
 // |  `percentRemaining`|   number|  An EV battery’s state of charge (in percent). 	|
 // |   `range`|   number	|   The estimated remaining distance the vehicle can travel (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers).	|
-
 func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID string) (*operations.GetBatteryLevelResponse, error) {
 	request := operations.GetBatteryLevelRequest{
 		VehicleID: vehicleID,
@@ -167,7 +165,6 @@ func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID string) (*operation
 // __Description__
 //
 // Returns the current charge limit of an electric vehicle.
-
 func (s *evs) GetChargingLimit(ctx context.Context, vehicleID string) (*operations.GetChargingLimitResponse, error) {
 	request := operations.GetChargingLimitRequest{
 		VehicleID: vehicleID,
@@ -233,7 +230,6 @@ func (s *evs) GetChargingLimit(ctx context.Context, vehicleID string) (*operatio
 // |---	|---	|---	|
 // |  `isPluggedIn` 	|   boolean	|  Indicates whether a charging cable is currently plugged into the vehicle’s charge port. 	|
 // |   `state`	|   string	|   Indicates whether the vehicle is currently charging. Options: `CHARGING` `FULLY_CHARGED` `NOT_CHARGING`	|
-
 func (s *evs) GetChargingStatus(ctx context.Context, vehicleID string) (*operations.GetChargingStatusResponse, error) {
 	request := operations.GetChargingStatusRequest{
 		VehicleID: vehicleID,
@@ -288,7 +284,6 @@ func (s *evs) GetChargingStatus(ctx context.Context, vehicleID string) (*operati
 // __Description__
 //
 // Returns the current charge limit of an electric vehicle.
-
 func (s *evs) SetChargingLimit(ctx context.Context, vehicleID string, chargeLimit *shared.ChargeLimit) (*operations.SetChargingLimitResponse, error) {
 	request := operations.SetChargingLimitRequest{
 		VehicleID:   vehicleID,
@@ -362,7 +357,6 @@ func (s *evs) SetChargingLimit(ctx context.Context, vehicleID string, chargeLimi
 // |---	|---	|---	|
 // |  `isPluggedIn` 	|   boolean	|  Indicates whether a charging cable is currently plugged into the vehicle’s charge port. 	|
 // |   `state`	|   string	|   Indicates whether the vehicle is currently charging. Options: `CHARGING` `FULLY_CHARGED` `NOT_CHARGING`	|
-
 func (s *evs) StartStopCharge(ctx context.Context, vehicleID string, chargeAction *shared.ChargeAction) (*operations.StartStopChargeResponse, error) {
 	request := operations.StartStopChargeRequest{
 		VehicleID:    vehicleID,

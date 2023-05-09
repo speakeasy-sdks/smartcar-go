@@ -35,7 +35,6 @@ func newVehicles(defaultClient, securityClient HTTPClient, serverURL, language, 
 
 // Batch - Batch
 // __Description__ Returns a list of responses from multiple Smartcar endpoints, all combined into a single request. Note: Batch requests is a paid feature. Please contact us to upgrade your plan and obtain access.
-
 func (s *vehicles) Batch(ctx context.Context, vehicleID string, requestBody []string) (*operations.BatchResponse, error) {
 	request := operations.BatchRequest{
 		VehicleID:   vehicleID,
@@ -104,7 +103,6 @@ func (s *vehicles) Batch(ctx context.Context, vehicleID string, requestBody []st
 // |  Name 	|Type   	|Boolean   	|
 // |---	|---	|---	|
 // |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
-
 func (s *vehicles) Disconnect(ctx context.Context, vehicleID string) (*operations.DisconnectResponse, error) {
 	request := operations.DisconnectRequest{
 		VehicleID: vehicleID,
@@ -172,7 +170,6 @@ func (s *vehicles) Disconnect(ctx context.Context, vehicleID string) (*operation
 // |`make`|string|The manufacturer of the vehicle.|
 // |`model`|integer|The model of the vehicle.|
 // |`year`|integer|The model year.|
-
 func (s *vehicles) Get(ctx context.Context, vehicleID string) (*operations.GetVehicleResponse, error) {
 	request := operations.GetVehicleRequest{
 		VehicleID: vehicleID,
@@ -237,7 +234,6 @@ func (s *vehicles) Get(ctx context.Context, vehicleID string) (*operations.GetVe
 // |  Name 	|Type   	|Boolean   	|
 // |---	|---	|---	|
 // |  `lifeRemaining`|   number|  The engine oil’s remaining life span (as a percentage). Oil life is based on the current quality of the oil. (in percent).|
-
 func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID string) (*operations.GetEngineOilResponse, error) {
 	request := operations.GetEngineOilRequest{
 		VehicleID: vehicleID,
@@ -304,7 +300,6 @@ func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID string) (*operati
 // |`range`|number|The estimated remaining distance the car can travel (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 // |`percentRemaining`|number|The remaining level of fuel in the tank (in percent).|
 // |`amountRemaining`|number|The amount of fuel in the tank (in liters by default or in gallons (U.S.) using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
-
 func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID string) (*operations.GetFuelTankResponse, error) {
 	request := operations.GetFuelTankRequest{
 		VehicleID: vehicleID,
@@ -370,7 +365,6 @@ func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID string) (*operatio
 // |--|--|--|
 // |`latitude`|number|The latitude (in degrees).|
 // |`longitude`|number|The longitude (in degrees).|
-
 func (s *vehicles) GetLocation(ctx context.Context, vehicleID string) (*operations.GetLocationResponse, error) {
 	request := operations.GetLocationRequest{
 		VehicleID: vehicleID,
@@ -435,7 +429,6 @@ func (s *vehicles) GetLocation(ctx context.Context, vehicleID string) (*operatio
 // |Name| Type|Desciprtion|
 // |--|--|--|
 // |`distance`|number|The current odometer of the vehicle (in kilometers by default or in miles using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
-
 func (s *vehicles) GetOdometer(ctx context.Context, vehicleID string) (*operations.GetOdometerResponse, error) {
 	request := operations.GetOdometerRequest{
 		VehicleID: vehicleID,
@@ -507,7 +500,6 @@ func (s *vehicles) GetOdometer(ctx context.Context, vehicleID string) (*operatio
 // |`paging`|object|Metadata about the current list of elements.|
 // |`paging.count`|integer|The total number of elements for the entire query (not just the given page).|
 // |`paging.offset`|integer|The current start index of the returned list of elements.|
-
 func (s *vehicles) GetPermissions(ctx context.Context, vehicleID string, limit *int64, offset *int64) (*operations.GetPermissionsResponse, error) {
 	request := operations.GetPermissionsRequest{
 		VehicleID: vehicleID,
@@ -580,7 +572,6 @@ func (s *vehicles) GetPermissions(ctx context.Context, vehicleID string, limit *
 // |`frontRight`|number|The current air pressure of the front right tire (in kilopascals by default or in pounds per square inch using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 // |`backLeft`|number|The current air pressure of the back left tire (in kilopascals by default or in pounds per square inch using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
 // |`backRight`|number|The current air pressure of the back right tire (in kilopascals by default or in pounds per square inch using the [sc-unit-system](https://smartcar.com/docs/api?version=v2.0&language=cURL#request-headers)).|
-
 func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*operations.GetTirePressureResponse, error) {
 	request := operations.GetTirePressureRequest{
 		VehicleID: vehicleID,
@@ -635,7 +626,6 @@ func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*oper
 // __Description__
 //
 // Returns the vehicle’s manufacturer identifier.
-
 func (s *vehicles) GetVin(ctx context.Context, vehicleID string) (*operations.GetVinResponse, error) {
 	request := operations.GetVinRequest{
 		VehicleID: vehicleID,
@@ -707,7 +697,6 @@ func (s *vehicles) GetVin(ctx context.Context, vehicleID string) (*operations.Ge
 // |`paging`|object|Metadata about the current list of elements.|
 // |`paging.count`|integer|The total number of elements for the entire query (not just the given page).|
 // |`paging.offset`|integer|The current start index of the returned list of elements.|
-
 func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64) (*operations.ListVehiclesResponse, error) {
 	request := operations.ListVehiclesRequest{
 		Limit:  limit,
@@ -763,7 +752,7 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 // LockUnlock - Lock/Unlock Vehicle
 // __Description__
 //
-// Unlock the vehicle
+// # Unlock the vehicle
 //
 // __Permission__
 //
@@ -774,7 +763,6 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 // |  Name 	|Type   	|Boolean   	|
 // |---	|---	|---	|
 // |  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|
-
 func (s *vehicles) LockUnlock(ctx context.Context, vehicleID string, securityAction *shared.SecurityAction) (*operations.LockUnlockResponse, error) {
 	request := operations.LockUnlockRequest{
 		VehicleID:      vehicleID,

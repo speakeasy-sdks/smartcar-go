@@ -36,7 +36,6 @@ func newUser(defaultClient, securityClient HTTPClient, serverURL, language, sdkV
 // __Description__
 //
 // Returns the id of the vehicle owner who granted access to your application. This should be used as the static unique identifier for storing the access token and refresh token pair in your database. Note: A single user can own multiple vehicles, and multiple users can own the same vehicle.
-
 func (s *user) GetInfo(ctx context.Context) (*operations.GetInfoResponse, error) {
 	baseURL := s.serverURL
 	url := strings.TrimSuffix(baseURL, "/") + "/user"

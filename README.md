@@ -75,6 +75,18 @@ func main() {
 * [SetChargingLimit](docs/evs/README.md#setcharginglimit) - Set EV Charging Limit
 * [StartStopCharge](docs/evs/README.md#startstopcharge) - Start or stop charging an electric vehicle. Please contact us to request early access.
 
+### [Tesla](docs/tesla/README.md)
+
+* [GetAmmeter](docs/tesla/README.md#getammeter) - Retrieve charging ammeter time for a Tesla.
+* [GetChargeTime](docs/tesla/README.md#getchargetime) - Retrieve charging completion time for a Tesla.
+* [GetCompass](docs/tesla/README.md#getcompass) - Retrieve compass heading for a Tesla.
+* [GetExteriorTemperature](docs/tesla/README.md#getexteriortemperature) - Retrieve exterior temperature for a Tesla.
+* [GetInteriorTemperature](docs/tesla/README.md#getinteriortemperature) - Retrieve interior temperature for a Tesla.
+* [GetSpeedometer](docs/tesla/README.md#getspeedometer) - Retrieve speed for a Tesla.
+* [GetVoltage](docs/tesla/README.md#getvoltage) - Retrieve charging voltmeter time for a Tesla.
+* [GetWattmeter](docs/tesla/README.md#getwattmeter) - Retrieve charging wattmeter time for a Tesla.
+* [SetAmmeter](docs/tesla/README.md#setammeter) - Set charging ammeter time for a Tesla.
+
 ### [User](docs/user/README.md)
 
 * [GetInfo](docs/user/README.md#getinfo) - User Info
@@ -93,6 +105,11 @@ func main() {
 * [GetVin](docs/vehicles/README.md#getvin) - Returns the vehicle’s manufacturer identifier.
 * [ListVehicles](docs/vehicles/README.md#listvehicles) - All Vehicles
 * [LockUnlock](docs/vehicles/README.md#lockunlock) - Lock/Unlock Vehicle
+
+### [Webhooks](docs/webhooks/README.md)
+
+* [Subscribe](docs/webhooks/README.md#subscribe) - Subscribe Webhook
+* [Unsubscribe](docs/webhooks/README.md#unsubscribe) - Unsubscribe Webhook
 <!-- End SDK Available Operations -->
 
 ### Maturity
