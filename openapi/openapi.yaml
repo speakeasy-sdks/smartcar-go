@@ -673,6 +673,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserInfo'
 
+  /vehicles/{vehicle_id}/webhooks/{webhookId}:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Subscribe Webhook
+      tags: 
+        -  Webhooks
+      description: "__Description__\n\nSubscribe to a webhook for a vehicle.\n\n__Permission__\n\n`required: webhook:read`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|"
+      operationId: subscribe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookInfo'
+      responses:
+        '200':
+          description: return Compatibility
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    delete:
+      summary: Unsubscribe Webhook
+      tags: 
+        -  Webhooks
+      description: "__Description__\n\nDelete a webhook for a vehicle.\n\n__Permission__\n\n`required: webhook:read`\n\n__Response body__\n\n|  Name \t|Type   \t|Boolean   \t|\n|---\t|---\t|---\t|\n|  status|   string|  If the request is successful, Smartcar will return “success” (HTTP 200 status).|"
+      operationId: unsubscribe
+      responses:
+        '200':
+          description: Ubsubscribe from a webhook
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
   /vehicles/{vehicle_id}/cadillac/charge/completion:
     parameters:
       - name: vehicle_id
@@ -760,6 +804,195 @@ paths:
               schema:
                 $ref: '#/components/schemas/ChargeVoltage'
 
+  /vehicles/{vehicle_id}/tesla/compass:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve compass heading for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nThis endpoint returns the compass heading of a Tesla. The value is in degrees, with 0 degrees being North."
+      operationId: getTeslaCompass
+      x-speakeasy-name-override: getCompass
+      responses:
+        '200':
+          description: returns the compass heading of a Tesla.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Compass'
+
+  /vehicles/{vehicle_id}/tesla/charge/ammeter:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging ammeter time for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the amperage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: getTeslaAmmeter
+      x-speakeasy-name-override: getAmmeter
+      responses:
+        '200':
+          description: returns the amperage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeAmmeter'
+    post:
+      summary: Set charging ammeter time for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint sets the amperage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: setTeslaAmmeter
+      x-speakeasy-name-override: setAmmeter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeAmmeter'
+      responses:
+        '200':
+          description: returns the amperage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /vehicles/{vehicle_id}/tesla/charge/completion:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging completion time for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nWhen the vehicle is charging, this endpoint returns the date and time the vehicle expects to complete this charging session. When the vehicle is not charging, this endpoint results in a vehicle state error."
+      operationId: getTeslaChargeTime
+      x-speakeasy-name-override: getChargeTime
+      responses:
+        '200':
+          description: returns the date and time the vehicle expects to "complete" this charging session.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeTime'
+  /vehicles/{vehicle_id}/tesla/charge/voltmeter:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging voltmeter time for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the voltage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: getTeslaVoltage
+      x-speakeasy-name-override: getVoltage
+      responses:
+        '200':
+          description: returns the voltage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeVoltage'
+  /vehicles/{vehicle_id}/tesla/charge/wattmeter:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve charging wattmeter time for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nWhen the vehicle is plugged in, this endpoint returns the wattage of the charger measured by the vehicle. When the vehicle is not plugged in, this endpoint results in a vehicle state error."
+      operationId: getTeslaWattmeter
+      x-speakeasy-name-override: getWattmeter
+      responses:
+        '200':
+          description: returns the wattage of the charger measured by the vehicle.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ChargeWattage'
+
+  /vehicles/{id}/tesla/thermometer/exterior:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve exterior temperature for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nThis endpoint returns the exterior temperature of a Tesla, in celsius by default."
+      operationId: getTeslaExteriorTemperature
+      x-speakeasy-name-override: getExteriorTemperature
+      responses:
+        '200':
+          description: returns the exterior temperature of a Tesla.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Temperature'
+  /vehicles/{id}/tesla/thermometer/interior:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve interior temperature for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nThis endpoint returns the interior temperature of a Tesla, in celsius by default."
+      operationId: getTeslaInteriorTemperature
+      x-speakeasy-name-override: getInteriorTemperature
+      responses:
+        '200':
+          description: returns the interior temperature of a Tesla.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Temperature'
+  /vehicles/{vehicle_id}/tesla/speedometer:
+    parameters:
+      - name: vehicle_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Retrieve speed for a Tesla.
+      tags: 
+        -  Tesla
+      description: "__Description__\n\nThis endpoint returns the speed of a Tesla (in kilometers/hour by default or in miles/hour using the sc-unit-system)."
+      operationId: getTeslaSpeed
+      x-speakeasy-name-override: getSpeedometer
+      responses:
+        '200':
+          description: returns the speed of a Tesla.
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Speed'
 components: 
   securitySchemes: 
     BearerAuth:
@@ -829,6 +1062,13 @@ components:
           offset: 10
         permissions:
           - "read_vehicle_info"
+    Temperature:
+      type: object
+      properties:
+        temperature:
+          type: number
+          format: float
+          example: 23.5
 
     Location:
       type: object
@@ -844,6 +1084,13 @@ components:
       required:
         - latitude
         - longitude
+    Speed:
+      type: object
+      properties:
+        speed:
+          type: number
+          format: float
+          example: 23.5
     Odometer:
       type: object
       properties: 
@@ -851,6 +1098,7 @@ components:
           type: number
           format: float
           example: 104.32
+
     FuelTank:
       type: object
       properties: 
@@ -940,6 +1188,14 @@ components:
           format: float
           description: The voltage of the charger measured by the vehicle.
           example: 240.0
+    ChargeWattage:
+      type: object
+      properties:
+        wattage:
+          type: number
+          format: float
+          description: The wattage of the charger measured by the vehicle.
+          example: 3.5
 
     BatteryLevel:
       type: object
@@ -962,7 +1218,27 @@ components:
           format: float
           description: The total capacity of the vehicle's battery (in kilowatt-hours).
           example: 40.5
-
+    Compass:
+      type: object
+      properties:
+        direction:
+          type: string
+          enum: [N, NE, E, SE, S, SW, W, NW]
+          description: The direction the vehicle is traveling.
+          example: "N"
+        heading:
+          type: number
+          format: float
+          description: The direction the vehicle is traveling (in degrees).
+          example: 90.0
+    ChargeAmmeter:
+      type: object
+      properties:
+        amperage:
+          type: number
+          format: float
+          description: The amperage of the charger measured by the vehicle.
+          example: 48.0
     CompatibilityResponse:
       type: object
       properties: 
@@ -1007,6 +1283,17 @@ components:
         id:
           type: string
           example: "36ab27d0-fd9d-4455-823a-ce30af709ffc"
+    WebhookInfo:
+      type: object
+      description: A webhook ID (UUID v4).
+      properties:
+        webhookid:
+          type: string
+          example: "9b6ae692-60cc-4b3e-89d8-71e7549cf805"
+        vehicleid:
+          type: string
+          example: "dc6ea99e-57d1-4e41-b129-27e7eb58713e"
+
 
     SecurityAction:
       type: object
@@ -1093,4 +1380,3 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Header"
-
