@@ -7,25 +7,25 @@ import (
 	"fmt"
 )
 
-// CompassDirectionEnum - The direction the vehicle is traveling.
-type CompassDirectionEnum string
+// CompassDirection - The direction the vehicle is traveling.
+type CompassDirection string
 
 const (
-	CompassDirectionEnumN  CompassDirectionEnum = "N"
-	CompassDirectionEnumNe CompassDirectionEnum = "NE"
-	CompassDirectionEnumE  CompassDirectionEnum = "E"
-	CompassDirectionEnumSe CompassDirectionEnum = "SE"
-	CompassDirectionEnumS  CompassDirectionEnum = "S"
-	CompassDirectionEnumSw CompassDirectionEnum = "SW"
-	CompassDirectionEnumW  CompassDirectionEnum = "W"
-	CompassDirectionEnumNw CompassDirectionEnum = "NW"
+	CompassDirectionN  CompassDirection = "N"
+	CompassDirectionNe CompassDirection = "NE"
+	CompassDirectionE  CompassDirection = "E"
+	CompassDirectionSe CompassDirection = "SE"
+	CompassDirectionS  CompassDirection = "S"
+	CompassDirectionSw CompassDirection = "SW"
+	CompassDirectionW  CompassDirection = "W"
+	CompassDirectionNw CompassDirection = "NW"
 )
 
-func (e CompassDirectionEnum) ToPointer() *CompassDirectionEnum {
+func (e CompassDirection) ToPointer() *CompassDirection {
 	return &e
 }
 
-func (e *CompassDirectionEnum) UnmarshalJSON(data []byte) error {
+func (e *CompassDirection) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -46,17 +46,17 @@ func (e *CompassDirectionEnum) UnmarshalJSON(data []byte) error {
 	case "W":
 		fallthrough
 	case "NW":
-		*e = CompassDirectionEnum(v)
+		*e = CompassDirection(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CompassDirectionEnum: %v", v)
+		return fmt.Errorf("invalid value for CompassDirection: %v", v)
 	}
 }
 
 // Compass - returns the compass heading of a Tesla.
 type Compass struct {
 	// The direction the vehicle is traveling.
-	Direction *CompassDirectionEnum `json:"direction,omitempty"`
+	Direction *CompassDirection `json:"direction,omitempty"`
 	// The direction the vehicle is traveling (in degrees).
 	Heading *float32 `json:"heading,omitempty"`
 }

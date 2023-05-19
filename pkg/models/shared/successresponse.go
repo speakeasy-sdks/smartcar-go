@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type SuccessResponseStatusEnum string
+type SuccessResponseStatus string
 
 const (
-	SuccessResponseStatusEnumSuccess SuccessResponseStatusEnum = "SUCCESS"
-	SuccessResponseStatusEnumFailed  SuccessResponseStatusEnum = "FAILED"
+	SuccessResponseStatusSuccess SuccessResponseStatus = "SUCCESS"
+	SuccessResponseStatusFailed  SuccessResponseStatus = "FAILED"
 )
 
-func (e SuccessResponseStatusEnum) ToPointer() *SuccessResponseStatusEnum {
+func (e SuccessResponseStatus) ToPointer() *SuccessResponseStatus {
 	return &e
 }
 
-func (e *SuccessResponseStatusEnum) UnmarshalJSON(data []byte) error {
+func (e *SuccessResponseStatus) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,15 +27,15 @@ func (e *SuccessResponseStatusEnum) UnmarshalJSON(data []byte) error {
 	case "SUCCESS":
 		fallthrough
 	case "FAILED":
-		*e = SuccessResponseStatusEnum(v)
+		*e = SuccessResponseStatus(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for SuccessResponseStatusEnum: %v", v)
+		return fmt.Errorf("invalid value for SuccessResponseStatus: %v", v)
 	}
 }
 
 // SuccessResponse - return Success Response
 type SuccessResponse struct {
-	Message *string                    `json:"message,omitempty"`
-	Status  *SuccessResponseStatusEnum `json:"status,omitempty"`
+	Message *string                `json:"message,omitempty"`
+	Status  *SuccessResponseStatus `json:"status,omitempty"`
 }

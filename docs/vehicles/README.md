@@ -575,7 +575,7 @@ func main() {
 
     ctx := context.Background()
     res, err := s.Vehicles.LockUnlock(ctx, "ipsam", &shared.SecurityAction{
-        Action: shared.SecurityActionActionEnumUnlock.ToPointer(),
+        Action: shared.SecurityActionActionUnlock.ToPointer(),
     })
     if err != nil {
         log.Fatal(err)

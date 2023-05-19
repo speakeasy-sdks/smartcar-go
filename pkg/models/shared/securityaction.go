@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type SecurityActionActionEnum string
+type SecurityActionAction string
 
 const (
-	SecurityActionActionEnumLock   SecurityActionActionEnum = "LOCK"
-	SecurityActionActionEnumUnlock SecurityActionActionEnum = "UNLOCK"
+	SecurityActionActionLock   SecurityActionAction = "LOCK"
+	SecurityActionActionUnlock SecurityActionAction = "UNLOCK"
 )
 
-func (e SecurityActionActionEnum) ToPointer() *SecurityActionActionEnum {
+func (e SecurityActionAction) ToPointer() *SecurityActionAction {
 	return &e
 }
 
-func (e *SecurityActionActionEnum) UnmarshalJSON(data []byte) error {
+func (e *SecurityActionAction) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,13 +27,13 @@ func (e *SecurityActionActionEnum) UnmarshalJSON(data []byte) error {
 	case "LOCK":
 		fallthrough
 	case "UNLOCK":
-		*e = SecurityActionActionEnum(v)
+		*e = SecurityActionAction(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for SecurityActionActionEnum: %v", v)
+		return fmt.Errorf("invalid value for SecurityActionAction: %v", v)
 	}
 }
 
 type SecurityAction struct {
-	Action *SecurityActionActionEnum `json:"action,omitempty"`
+	Action *SecurityActionAction `json:"action,omitempty"`
 }

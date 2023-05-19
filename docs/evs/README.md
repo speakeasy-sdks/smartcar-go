@@ -272,7 +272,7 @@ func main() {
 
     ctx := context.Background()
     res, err := s.Evs.StartStopCharge(ctx, "error", &shared.ChargeAction{
-        Action: shared.ChargeActionActionEnumStart.ToPointer(),
+        Action: shared.ChargeActionActionStart.ToPointer(),
     })
     if err != nil {
         log.Fatal(err)

@@ -7,19 +7,19 @@ import (
 	"fmt"
 )
 
-type ChargeStatusStateEnum string
+type ChargeStatusState string
 
 const (
-	ChargeStatusStateEnumCharging     ChargeStatusStateEnum = "CHARGING"
-	ChargeStatusStateEnumFullyCharged ChargeStatusStateEnum = "FULLY_CHARGED"
-	ChargeStatusStateEnumNotCharging  ChargeStatusStateEnum = "NOT_CHARGING"
+	ChargeStatusStateCharging     ChargeStatusState = "CHARGING"
+	ChargeStatusStateFullyCharged ChargeStatusState = "FULLY_CHARGED"
+	ChargeStatusStateNotCharging  ChargeStatusState = "NOT_CHARGING"
 )
 
-func (e ChargeStatusStateEnum) ToPointer() *ChargeStatusStateEnum {
+func (e ChargeStatusState) ToPointer() *ChargeStatusState {
 	return &e
 }
 
-func (e *ChargeStatusStateEnum) UnmarshalJSON(data []byte) error {
+func (e *ChargeStatusState) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -30,15 +30,15 @@ func (e *ChargeStatusStateEnum) UnmarshalJSON(data []byte) error {
 	case "FULLY_CHARGED":
 		fallthrough
 	case "NOT_CHARGING":
-		*e = ChargeStatusStateEnum(v)
+		*e = ChargeStatusState(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for ChargeStatusStateEnum: %v", v)
+		return fmt.Errorf("invalid value for ChargeStatusState: %v", v)
 	}
 }
 
 type ChargeStatus struct {
 	// Indicates whether a charging cable is currently plugged into the vehicle’s charge port.
-	IsPluggedIn *bool                  `json:"isPluggedIn,omitempty"`
-	State       *ChargeStatusStateEnum `json:"state,omitempty"`
+	IsPluggedIn *bool              `json:"isPluggedIn,omitempty"`
+	State       *ChargeStatusState `json:"state,omitempty"`
 }
