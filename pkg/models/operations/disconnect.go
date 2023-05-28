@@ -12,35 +12,35 @@ type DisconnectRequest struct {
 	VehicleID string `pathParam:"style=simple,explode=false,name=vehicle_id"`
 }
 
-// DisconnectStatusEnum - Revoke application access
-type DisconnectStatusEnum string
+// DisconnectStatus - Revoke application access
+type DisconnectStatus string
 
 const (
-	DisconnectStatusEnumSuccess DisconnectStatusEnum = "success"
+	DisconnectStatusSuccess DisconnectStatus = "success"
 )
 
-func (e DisconnectStatusEnum) ToPointer() *DisconnectStatusEnum {
+func (e DisconnectStatus) ToPointer() *DisconnectStatus {
 	return &e
 }
 
-func (e *DisconnectStatusEnum) UnmarshalJSON(data []byte) error {
+func (e *DisconnectStatus) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "success":
-		*e = DisconnectStatusEnum(v)
+		*e = DisconnectStatus(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for DisconnectStatusEnum: %v", v)
+		return fmt.Errorf("invalid value for DisconnectStatus: %v", v)
 	}
 }
 
 type DisconnectResponse struct {
 	ContentType string
 	// Revoke application access
-	Status      *DisconnectStatusEnum
+	Status      *DisconnectStatus
 	StatusCode  int
 	RawResponse *http.Response
 }

@@ -101,8 +101,8 @@ func WithSecurity(security shared.Security) SDKOption {
 func New(opts ...SDKOption) *Smartcar {
 	sdk := &Smartcar{
 		_language:   "go",
-		_sdkVersion: "1.2.0",
-		_genVersion: "2.26.2",
+		_sdkVersion: "1.5.0",
+		_genVersion: "2.31.0",
 	}
 	for _, opt := range opts {
 		opt(sdk)

@@ -44,7 +44,7 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
@@ -92,7 +92,7 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
@@ -129,7 +129,7 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
@@ -177,7 +177,7 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
@@ -215,7 +215,7 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
@@ -266,13 +266,13 @@ import(
 func main() {
     s := smartcar.New(
         smartcar.WithSecurity(shared.Security{
-            BearerAuth: "Bearer YOUR_BEARER_TOKEN_HERE",
+            BearerAuth: "YOUR_BEARER_TOKEN_HERE",
         }),
     )
 
     ctx := context.Background()
     res, err := s.Evs.StartStopCharge(ctx, "error", &shared.ChargeAction{
-        Action: shared.ChargeActionActionEnumStart.ToPointer(),
+        Action: shared.ChargeActionActionStart.ToPointer(),
     })
     if err != nil {
         log.Fatal(err)

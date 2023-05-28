@@ -389,18 +389,18 @@ func (u ResponseBody) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-type ResponseCodeEnum string
+type ResponseCode string
 
 const (
-	ResponseCodeEnumTwoHundred  ResponseCodeEnum = "200"
-	ResponseCodeEnumFiveHundred ResponseCodeEnum = "500"
+	ResponseCodeTwoHundred  ResponseCode = "200"
+	ResponseCodeFiveHundred ResponseCode = "500"
 )
 
-func (e ResponseCodeEnum) ToPointer() *ResponseCodeEnum {
+func (e ResponseCode) ToPointer() *ResponseCode {
 	return &e
 }
 
-func (e *ResponseCodeEnum) UnmarshalJSON(data []byte) error {
+func (e *ResponseCode) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -409,16 +409,16 @@ func (e *ResponseCodeEnum) UnmarshalJSON(data []byte) error {
 	case "200":
 		fallthrough
 	case "500":
-		*e = ResponseCodeEnum(v)
+		*e = ResponseCode(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for ResponseCodeEnum: %v", v)
+		return fmt.Errorf("invalid value for ResponseCode: %v", v)
 	}
 }
 
 type Response struct {
-	Body    *ResponseBody     `json:"body,omitempty"`
-	Code    *ResponseCodeEnum `json:"code,omitempty"`
-	Headers []Header          `json:"headers,omitempty"`
-	Path    *string           `json:"path,omitempty"`
+	Body    *ResponseBody `json:"body,omitempty"`
+	Code    *ResponseCode `json:"code,omitempty"`
+	Headers []Header      `json:"headers,omitempty"`
+	Path    *string       `json:"path,omitempty"`
 }

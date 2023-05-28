@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type ChargeActionActionEnum string
+type ChargeActionAction string
 
 const (
-	ChargeActionActionEnumStart ChargeActionActionEnum = "START"
-	ChargeActionActionEnumStop  ChargeActionActionEnum = "STOP"
+	ChargeActionActionStart ChargeActionAction = "START"
+	ChargeActionActionStop  ChargeActionAction = "STOP"
 )
 
-func (e ChargeActionActionEnum) ToPointer() *ChargeActionActionEnum {
+func (e ChargeActionAction) ToPointer() *ChargeActionAction {
 	return &e
 }
 
-func (e *ChargeActionActionEnum) UnmarshalJSON(data []byte) error {
+func (e *ChargeActionAction) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,13 +27,13 @@ func (e *ChargeActionActionEnum) UnmarshalJSON(data []byte) error {
 	case "START":
 		fallthrough
 	case "STOP":
-		*e = ChargeActionActionEnum(v)
+		*e = ChargeActionAction(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for ChargeActionActionEnum: %v", v)
+		return fmt.Errorf("invalid value for ChargeActionAction: %v", v)
 	}
 }
 
 type ChargeAction struct {
-	Action *ChargeActionActionEnum `json:"action,omitempty"`
+	Action *ChargeActionAction `json:"action,omitempty"`
 }
