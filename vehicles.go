@@ -3,11 +3,13 @@
 package smartcar
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/operations"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/shared"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/utils"
+	"io"
 	"net/http"
 	"strings"
 )
@@ -70,7 +72,13 @@ func (s *vehicles) Batch(ctx context.Context, vehicleID string, requestBody []st
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -84,7 +92,7 @@ func (s *vehicles) Batch(ctx context.Context, vehicleID string, requestBody []st
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.BatchResponse
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -132,7 +140,13 @@ func (s *vehicles) Disconnect(ctx context.Context, vehicleID string) (*operation
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -146,7 +160,7 @@ func (s *vehicles) Disconnect(ctx context.Context, vehicleID string) (*operation
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *operations.DisconnectStatus
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -201,7 +215,13 @@ func (s *vehicles) Get(ctx context.Context, vehicleID string) (*operations.GetVe
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -215,7 +235,7 @@ func (s *vehicles) Get(ctx context.Context, vehicleID string) (*operations.GetVe
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.VehicleInfo
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -267,7 +287,13 @@ func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID string) (*operati
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -281,7 +307,7 @@ func (s *vehicles) GetEngineOil(ctx context.Context, vehicleID string) (*operati
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.EngineOil
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -335,7 +361,13 @@ func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID string) (*operatio
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -349,7 +381,7 @@ func (s *vehicles) GetFuelTank(ctx context.Context, vehicleID string) (*operatio
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.FuelTank
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -402,7 +434,13 @@ func (s *vehicles) GetLocation(ctx context.Context, vehicleID string) (*operatio
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -416,7 +454,7 @@ func (s *vehicles) GetLocation(ctx context.Context, vehicleID string) (*operatio
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.Location
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -468,7 +506,13 @@ func (s *vehicles) GetOdometer(ctx context.Context, vehicleID string) (*operatio
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -482,7 +526,7 @@ func (s *vehicles) GetOdometer(ctx context.Context, vehicleID string) (*operatio
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.Odometer
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -547,7 +591,13 @@ func (s *vehicles) GetPermissions(ctx context.Context, vehicleID string, limit *
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -561,7 +611,7 @@ func (s *vehicles) GetPermissions(ctx context.Context, vehicleID string, limit *
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.Permission
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -615,7 +665,13 @@ func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*oper
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -629,7 +685,7 @@ func (s *vehicles) GetTirePressure(ctx context.Context, vehicleID string) (*oper
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.TirePressure
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -671,7 +727,13 @@ func (s *vehicles) GetVin(ctx context.Context, vehicleID string) (*operations.Ge
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -685,7 +747,7 @@ func (s *vehicles) GetVin(ctx context.Context, vehicleID string) (*operations.Ge
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.VinInfo
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -746,7 +808,13 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -760,7 +828,7 @@ func (s *vehicles) ListVehicles(ctx context.Context, limit *int64, offset *int64
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.VehiclesResponse
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -820,7 +888,13 @@ func (s *vehicles) LockUnlock(ctx context.Context, vehicleID string, securityAct
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -834,7 +908,7 @@ func (s *vehicles) LockUnlock(ctx context.Context, vehicleID string, securityAct
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.SuccessResponse
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
