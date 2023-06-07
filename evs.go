@@ -3,11 +3,13 @@
 package smartcar
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/operations"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/shared"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/utils"
+	"io"
 	"net/http"
 )
 
@@ -73,7 +75,13 @@ func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID string) (*operat
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -87,7 +95,7 @@ func (s *evs) GetBatteryCapacity(ctx context.Context, vehicleID string) (*operat
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.BatteryCapacity
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -140,7 +148,13 @@ func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID string) (*operation
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -154,7 +168,7 @@ func (s *evs) GetBatteryLevel(ctx context.Context, vehicleID string) (*operation
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.BatteryLevel
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -196,7 +210,13 @@ func (s *evs) GetChargingLimit(ctx context.Context, vehicleID string) (*operatio
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -210,7 +230,7 @@ func (s *evs) GetChargingLimit(ctx context.Context, vehicleID string) (*operatio
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ChargeLimit
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -263,7 +283,13 @@ func (s *evs) GetChargingStatus(ctx context.Context, vehicleID string) (*operati
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -277,7 +303,7 @@ func (s *evs) GetChargingStatus(ctx context.Context, vehicleID string) (*operati
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ChargeStatus
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -327,7 +353,13 @@ func (s *evs) SetChargingLimit(ctx context.Context, vehicleID string, chargeLimi
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -341,7 +373,7 @@ func (s *evs) SetChargingLimit(ctx context.Context, vehicleID string, chargeLimi
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.SuccessResponse
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
@@ -402,7 +434,13 @@ func (s *evs) StartStopCharge(ctx context.Context, vehicleID string, chargeActio
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -416,7 +454,7 @@ func (s *evs) StartStopCharge(ctx context.Context, vehicleID string, chargeActio
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.SuccessResponse
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 

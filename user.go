@@ -3,11 +3,13 @@
 package smartcar
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/operations"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/models/shared"
 	"github.com/speakeasy-sdks/smartcar-go/pkg/utils"
+	"io"
 	"net/http"
 	"strings"
 )
@@ -56,7 +58,13 @@ func (s *user) GetInfo(ctx context.Context) (*operations.GetInfoResponse, error)
 	if httpRes == nil {
 		return nil, fmt.Errorf("error sending request: no response")
 	}
-	defer httpRes.Body.Close()
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	contentType := httpRes.Header.Get("Content-Type")
 
@@ -70,7 +78,7 @@ func (s *user) GetInfo(ctx context.Context) (*operations.GetInfoResponse, error)
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.UserInfo
-			if err := utils.UnmarshalJsonFromResponseBody(httpRes.Body, &out); err != nil {
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
 				return nil, err
 			}
 
